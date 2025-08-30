@@ -1,0 +1,5 @@
+{
+  "name": "Target DSA 2025",
+  "description": "A modern, dark-themed web application to track your Data Structures and Algorithms progress for 2025. All data is saved locally.",
+  "requestFramePermissions": []
+}
