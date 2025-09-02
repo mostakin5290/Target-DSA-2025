@@ -17,39 +17,41 @@
             },
             colors: {
               'background': '#050505',
-              'primary': '#111111',
-              'secondary': '#1c1c1c',
+              'primary': 'rgba(28, 28, 28, 0.75)',
+              'secondary': 'rgba(38, 38, 38, 0.5)',
               'accent': '#00f5c3',
               'accent-hover': '#00d1a7',
+              'accent-light': '#a7fff1',
               'light': '#e0e0e0',
               'dark-text': '#888888',
-              'border': '#222222',
+              'border': 'rgba(255, 255, 255, 0.1)',
               'difficulty-easy': '#2ea043',
               'difficulty-medium': '#f0b429',
               'difficulty-hard': '#f85149',
-              'difficulty-easy-bg': 'rgba(46, 160, 67, 0.1)',
-              'difficulty-medium-bg': 'rgba(240, 180, 41, 0.1)',
-              'difficulty-hard-bg': 'rgba(248, 81, 73, 0.1)',
+              'difficulty-easy-bg': 'rgba(46, 160, 67, 0.15)',
+              'difficulty-medium-bg': 'rgba(240, 180, 41, 0.15)',
+              'difficulty-hard-bg': 'rgba(248, 81, 73, 0.15)',
             },
             animation: {
                 'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                'aurora': 'aurora 60s infinite',
             },
             keyframes: {
                 fadeInUp: {
                     '0%': { opacity: '0', transform: 'translateY(20px)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
+                aurora: {
+                  '0%': { backgroundPosition: '0% 50%' },
+                  '50%': { backgroundPosition: '100% 50%' },
+                  '100%': { backgroundPosition: '0% 50%' },
+                }
             },
           }
         }
       }
     </script>
 <style>
-  @keyframes moveGrid {
-    from { background-position: 0 0; }
-    to { background-position: -2rem -2rem; }
-  }
-
   body {
     background-color: #050505;
     position: relative;
@@ -63,13 +65,19 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: 
-      linear-gradient(to right, #1c1c1c 1px, transparent 1px),
-      linear-gradient(to bottom, #1c1c1c 1px, transparent 1px);
-    background-size: 2rem 2rem;
-    opacity: 0.1;
+    background: radial-gradient(at 20% 20%, hsla(167, 100%, 50%, 0.1) 0px, transparent 50%), 
+                radial-gradient(at 80% 20%, hsla(289, 100%, 50%, 0.1) 0px, transparent 50%), 
+                radial-gradient(at 80% 80%, hsla(202, 100%, 50%, 0.1) 0px, transparent 50%), 
+                radial-gradient(at 20% 80%, hsla(347, 100%, 50%, 0.1) 0px, transparent 50%);
     z-index: -1;
-    animation: moveGrid 60s linear infinite;
+    animation: aurora 20s ease-in-out infinite alternate;
+  }
+  
+  .glassmorphism {
+    background: rgba(28, 28, 28, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .animate-fade-in-up {
@@ -86,6 +94,7 @@
     "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
     "@clerk/clerk-react": "https://esm.sh/@clerk/clerk-react@5",
     "@clerk/themes": "https://esm.sh/@clerk/themes@2",
+    "@google/genai": "https://esm.sh/@google/genai",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
     "react/": "https://aistudiocdn.com/react@^19.1.1/",
     "@clerk/types": "https://aistudiocdn.com/@clerk/types@^4.84.0"
@@ -93,7 +102,7 @@
 }
 </script>
 </head>
-<body class="bg-background font-sans antialiased">
+<body class="bg-background font-sans antialiased text-light">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

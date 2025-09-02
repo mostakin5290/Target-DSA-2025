@@ -5,11 +5,12 @@ import SearchFilter from './components/SearchFilter';
 import Auth from './components/Auth';
 import Spinner from './components/Spinner';
 import ProfilePage from './components/ProfilePage';
+import Dashboard from './components/Dashboard';
+import NoteModal from './components/NoteModal';
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { sdeSheet } from './data/problems';
-import type { Topic } from './types';
+import type { Topic, Problem } from './types';
 import { getUserData, updateProblemStatus, updateNote, resetUserData } from './services/userData';
-
 
 const MainApp: React.FC = () => {
     const { isLoaded, user } = useUser();
@@ -18,81 +19,79 @@ const MainApp: React.FC = () => {
     const [solvedProblems, setSolvedProblems] = useState<Set<number>>(new Set());
     const [notes, setNotes] = useState<Map<number, string>>(new Map());
     const [searchQuery, setSearchQuery] = useState('');
+    const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
+    const [openTopic, setOpenTopic] = useState<string | null>(null);
 
     useEffect(() => {
         if (isLoaded && user) {
             setDataLoading(true);
-            const userData = getUserData(user.id);
+            const userData = getUserData(user);
             setSolvedProblems(new Set(userData.solvedProblems));
             setNotes(new Map(Object.entries(userData.notes).map(([key, value]) => [Number(key), value as string])));
             setDataLoading(false);
         }
     }, [isLoaded, user]);
+    
+    useEffect(() => {
+        if (openTopic) {
+            const element = document.getElementById(`topic-${openTopic}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }, [openTopic]);
 
-    const handleToggleProblem = useCallback((id: number) => {
+    const handleToggleProblem = useCallback(async (id: number) => {
         if (!user) return;
-
         const newSet = new Set(solvedProblems);
         const isSolved = newSet.has(id);
-        
-        if (isSolved) {
-            newSet.delete(id);
-        } else {
-            newSet.add(id);
-        }
+        if (isSolved) newSet.delete(id);
+        else newSet.add(id);
         setSolvedProblems(newSet);
-
-        updateProblemStatus(user.id, id, !isSolved);
-
+        await updateProblemStatus(user, id, !isSolved);
     }, [solvedProblems, user]);
 
-    const handleNoteChange = useCallback((id: number, text: string) => {
+    const handleNoteChange = useCallback(async (id: number, text: string) => {
         if (!user) return;
-        
         const newMap = new Map(notes);
-        if (text.trim()) {
-            newMap.set(id, text);
-        } else {
-            newMap.delete(id);
-        }
+        if (text.trim()) newMap.set(id, text);
+        else newMap.delete(id);
         setNotes(newMap);
-
-        updateNote(user.id, id, text);
-
+        await updateNote(user, id, text);
     }, [notes, user]);
 
-    const handleResetProgress = useCallback(() => {
+    const handleResetProgress = useCallback(async () => {
         if (!user) return;
-
         setSolvedProblems(new Set());
         setNotes(new Map());
-        resetUserData(user.id);
+        await resetUserData(user);
     }, [user]);
+    
+    const handleSelectProblemFromDashboard = (problemId: number) => {
+        const topicForProblem = sdeSheet.find(t => t.problems.some(p => p.id === problemId));
+        if (topicForProblem) {
+            setOpenTopic(topicForProblem.title);
+        }
+    };
 
     const totalProblems = useMemo(() => sdeSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
 
     const filteredTopics = useMemo(() => {
-        if (!searchQuery.trim()) {
-            return sdeSheet;
-        }
+        if (!searchQuery.trim()) return sdeSheet;
         const lowercasedQuery = searchQuery.toLowerCase();
         return sdeSheet
             .map(topic => ({
                 ...topic,
-                problems: topic.problems.filter(problem =>
-                    problem.title.toLowerCase().includes(lowercasedQuery)
-                ),
+                problems: topic.problems.filter(problem => problem.title.toLowerCase().includes(lowercasedQuery)),
             }))
             .filter(topic => topic.problems.length > 0);
     }, [searchQuery]);
 
     const firstUnsolvedTopicIndex = useMemo(() => {
-        const index = sdeSheet.findIndex(topic => {
-            const solvedCount = topic.problems.filter(p => solvedProblems.has(p.id)).length;
-            return solvedCount < topic.problems.length;
-        });
+        if (searchQuery) return -1;
+        const index = sdeSheet.findIndex(topic => topic.problems.some(p => !solvedProblems.has(p.id)));
         return index;
-    }, [solvedProblems]);
+    }, [solvedProblems, searchQuery]);
 
     const allProblemsSolved = solvedProblems.size === totalProblems && totalProblems > 0;
 
@@ -125,6 +124,12 @@ const MainApp: React.FC = () => {
                     onNavigateToProfile={() => setView('profile')}
                 />
                 
+                <Dashboard 
+                    topics={sdeSheet} 
+                    solvedProblems={solvedProblems} 
+                    onSelectProblem={handleSelectProblemFromDashboard}
+                />
+                
                 <SearchFilter 
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
@@ -132,7 +137,7 @@ const MainApp: React.FC = () => {
 
                 <main className="mt-6 space-y-4">
                     {allProblemsSolved && (
-                        <div className="bg-primary border border-border rounded-lg p-8 text-center animate-fade-in-up">
+                        <div className="bg-primary/80 border border-border rounded-lg p-8 text-center animate-fade-in-up backdrop-blur-lg">
                             <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
                             <p className="mt-2 text-light">You have solved all the problems. Great job!</p>
                         </div>
@@ -141,15 +146,15 @@ const MainApp: React.FC = () => {
                     {filteredTopics.length > 0 ? (
                         filteredTopics.map((topic: Topic, index) => {
                             const originalIndex = sdeSheet.findIndex(t => t.title === topic.title);
+                            const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
                             return (
                                 <TopicCard 
                                     key={topic.title}
                                     topic={topic}
                                     solvedProblems={solvedProblems}
                                     onToggleProblem={handleToggleProblem}
-                                    notes={notes}
-                                    onNoteChange={handleNoteChange}
-                                    initiallyOpen={!searchQuery && originalIndex === firstUnsolvedTopicIndex}
+                                    onEditNote={setEditingProblem}
+                                    initiallyOpen={isInitiallyOpen}
                                     animationDelay={`${index * 50}ms`}
                                 />
                             );
@@ -166,6 +171,13 @@ const MainApp: React.FC = () => {
                     <p>Track your progress. Master DSA. All data saved to your account.</p>
                 </footer>
             </div>
+            <NoteModal 
+                problem={editingProblem}
+                note={editingProblem ? notes.get(editingProblem.id) : undefined}
+                isOpen={!!editingProblem}
+                onClose={() => setEditingProblem(null)}
+                onSave={handleNoteChange}
+            />
         </div>
     );
 };

@@ -15,7 +15,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery
     return (
         <div className="my-6 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
             <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <SearchIcon />
                 </div>
                 <input
@@ -23,7 +23,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search for a problem..."
-                    className="w-full bg-primary border border-border text-light rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/80 focus:border-accent transition-colors"
+                    className="w-full bg-primary/80 border border-border backdrop-blur-lg text-light rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/80 focus:border-accent transition-colors"
                 />
             </div>
         </div>

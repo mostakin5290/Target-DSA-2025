@@ -1,79 +1,83 @@
+import type { UserResource } from '@clerk/types';
+
 interface UserData {
     solvedProblems: number[];
     notes: Record<string, string>;
 }
 
-const getUserDataKey = (userId: string) => `userData_${userId}`;
+// Fetches user progress data from Clerk's unsafeMetadata
+export const getUserData = (user: UserResource): UserData => {
+    const metadata = user.unsafeMetadata || {};
+    const solvedProblems = (Array.isArray(metadata.solvedProblems) ? metadata.solvedProblems : []) as number[];
+    const notes = (typeof metadata.notes === 'object' && metadata.notes !== null ? metadata.notes : {}) as Record<string, string>;
 
-export const getUserData = (userId: string): UserData => {
-    if (!userId) {
-        return { solvedProblems: [], notes: {} };
-    }
+    return { solvedProblems, notes };
+};
+
+// Updates a problem's solved status in Clerk's unsafeMetadata
+export const updateProblemStatus = async (user: UserResource, problemId: number, isSolved: boolean): Promise<void> => {
+    if (!user) return;
+
     try {
-        const data = localStorage.getItem(getUserDataKey(userId));
-        if (data) {
-            const parsedData = JSON.parse(data);
-            return {
-                solvedProblems: Array.isArray(parsedData.solvedProblems) ? parsedData.solvedProblems : [],
-                notes: typeof parsedData.notes === 'object' && parsedData.notes !== null ? parsedData.notes : {}
-            };
+        const currentData = getUserData(user);
+        const solvedSet = new Set(currentData.solvedProblems);
+
+        if (isSolved) {
+            solvedSet.add(problemId);
+        } else {
+            solvedSet.delete(problemId);
         }
+
+        await user.update({
+            unsafeMetadata: {
+                ...user.unsafeMetadata,
+                notes: currentData.notes, // Ensure notes are carried over
+                solvedProblems: Array.from(solvedSet),
+            },
+        });
     } catch (error) {
-        console.error("Failed to parse user data from localStorage:", error);
+        console.error("Failed to update problem status:", error);
     }
-    return { solvedProblems: [], notes: {} };
 };
 
-const saveUserData = (userId: string, data: UserData) => {
-    if (!userId) return;
+// Updates a problem's note in Clerk's unsafeMetadata
+export const updateNote = async (user: UserResource, problemId: number, text: string): Promise<void> => {
+    if (!user) return;
+
     try {
-        localStorage.setItem(getUserDataKey(userId), JSON.stringify(data));
+        const currentData = getUserData(user);
+        const updatedNotes = { ...currentData.notes };
+
+        if (text.trim()) {
+            updatedNotes[String(problemId)] = text;
+        } else {
+            delete updatedNotes[String(problemId)];
+        }
+
+        await user.update({
+            unsafeMetadata: {
+                ...user.unsafeMetadata,
+                solvedProblems: currentData.solvedProblems, // Ensure solved problems are carried over
+                notes: updatedNotes,
+            },
+        });
     } catch (error) {
-        console.error("Failed to save user data to localStorage:", error);
+        console.error("Failed to update note:", error);
     }
 };
 
-export const updateProblemStatus = (userId: string, problemId: number, isSolved: boolean): void => {
-    const userData = getUserData(userId);
-    const solvedSet = new Set(userData.solvedProblems);
-    
-    if (isSolved) {
-        solvedSet.add(problemId);
-    } else {
-        solvedSet.delete(problemId);
-    }
+// Resets all user progress data in Clerk's unsafeMetadata
+export const resetUserData = async (user: UserResource): Promise<void> => {
+    if (!user) return;
 
-    const updatedData: UserData = {
-        ...userData,
-        solvedProblems: Array.from(solvedSet),
-    };
-
-    saveUserData(userId, updatedData);
-};
-
-export const updateNote = (userId: string, problemId: number, text: string): void => {
-    const userData = getUserData(userId);
-    const updatedNotes = { ...userData.notes };
-
-    if (text.trim()) {
-        updatedNotes[String(problemId)] = text;
-    } else {
-        delete updatedNotes[String(problemId)];
-    }
-    
-    const updatedData: UserData = {
-        ...userData,
-        notes: updatedNotes,
-    };
-    
-    saveUserData(userId, updatedData);
-};
-
-export const resetUserData = (userId: string): void => {
-    if (!userId) return;
     try {
-        localStorage.removeItem(getUserDataKey(userId));
+        await user.update({
+            unsafeMetadata: {
+                solvedProblems: [],
+                notes: {},
+            },
+        });
     } catch (error) {
-        console.error("Failed to reset user data in localStorage:", error);
+        console.error("Failed to reset user data:", error);
     }
 };

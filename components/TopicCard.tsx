@@ -1,18 +1,17 @@
 import React, { useMemo, useRef, useEffect } from 'react';
-import type { Topic } from '../types';
+import type { Topic, Problem } from '../types';
 import ProblemRow from './ProblemRow';
 
 interface TopicCardProps {
     topic: Topic;
     solvedProblems: Set<number>;
     onToggleProblem: (id: number) => void;
-    notes: Map<number, string>;
-    onNoteChange: (id: number, text: string) => void;
+    onEditNote: (problem: Problem) => void;
     initiallyOpen: boolean;
     animationDelay: string;
 }
 
-const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onToggleProblem, notes, onNoteChange, initiallyOpen, animationDelay }) => {
+const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onToggleProblem, onEditNote, initiallyOpen, animationDelay }) => {
     const detailsRef = useRef<HTMLDetailsElement>(null);
     
     useEffect(() => {
@@ -30,7 +29,8 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
     return (
         <details 
             ref={detailsRef} 
-            className="bg-primary rounded-lg shadow-md border border-border overflow-hidden group animate-fade-in-up"
+            id={`topic-${topic.title}`}
+            className="bg-primary/80 rounded-2xl shadow-lg border border-border overflow-hidden group animate-fade-in-up backdrop-blur-lg"
             style={{ animationDelay }}
         >
             <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors duration-200 group-hover:bg-secondary/50 relative border-l-4 border-transparent group-open:border-accent">
@@ -55,8 +55,7 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
                             problem={problem}
                             isSolved={solvedProblems.has(problem.id)}
                             onToggle={onToggleProblem}
-                            note={notes.get(problem.id)}
-                            onNoteChange={onNoteChange}
+                            onEditNote={onEditNote}
                         />
                     ))}
                 </div>

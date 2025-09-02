@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
 
     return (
         <>
-            <header className="bg-primary shadow-lg rounded-xl p-6 border border-border animate-fade-in-up">
+            <header className="bg-primary/80 backdrop-blur-lg shadow-2xl rounded-2xl p-6 border border-border animate-fade-in-up">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex items-center gap-4">
                         <TargetIcon />
@@ -60,14 +60,14 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
                         <div className="flex items-center space-x-2">
                              <button
                                 onClick={() => setIsModalOpen(true)}
-                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                 aria-label="Open settings"
                             >
                                 <SettingsIcon />
                             </button>
                             <button
                                 onClick={onNavigateToProfile}
-                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                 aria-label="View profile"
                             >
                                 <ProfileIcon />
@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
                     </div>
                 </div>
                 <div className="mt-6">
-                    <div className="w-full bg-secondary rounded-full h-3">
+                    <div className="w-full bg-secondary/80 rounded-full h-3">
                         <div 
                             className="bg-accent h-3 rounded-full transition-all duration-500 ease-out" 
                             style={{ 
@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
                     </button>
                     <button
                         onClick={handleReset}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-red-500"
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-primary focus-visible:ring-red-500"
                     >
                         Reset Progress
                     </button>
