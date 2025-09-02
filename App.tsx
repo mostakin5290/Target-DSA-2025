@@ -4,6 +4,7 @@ import TopicCard from './components/TopicCard';
 import SearchFilter from './components/SearchFilter';
 import Auth from './components/Auth';
 import Spinner from './components/Spinner';
+import ProfilePage from './components/ProfilePage';
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { sdeSheet } from './data/problems';
 import type { Topic } from './types';
@@ -13,32 +14,22 @@ import { getUserData, updateProblemStatus, updateNote, resetUserData } from './s
 const MainApp: React.FC = () => {
     const { isLoaded, user } = useUser();
     const [dataLoading, setDataLoading] = useState(true);
+    const [view, setView] = useState<'tracker' | 'profile'>('tracker');
     const [solvedProblems, setSolvedProblems] = useState<Set<number>>(new Set());
     const [notes, setNotes] = useState<Map<number, string>>(new Map());
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        if (!isLoaded || !user) {
-            return;
-        }
-
-        const fetchData = async () => {
+        if (isLoaded && user) {
             setDataLoading(true);
-            try {
-                const userData = await getUserData();
-                setSolvedProblems(new Set(userData.solvedProblems || []));
-                setNotes(new Map(Object.entries(userData.notes || {}).map(([key, value]) => [Number(key), value as string])));
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            } finally {
-                setDataLoading(false);
-            }
-        };
-
-        fetchData();
+            const userData = getUserData(user.id);
+            setSolvedProblems(new Set(userData.solvedProblems));
+            setNotes(new Map(Object.entries(userData.notes).map(([key, value]) => [Number(key), value as string])));
+            setDataLoading(false);
+        }
     }, [isLoaded, user]);
 
-    const handleToggleProblem = useCallback(async (id: number) => {
+    const handleToggleProblem = useCallback((id: number) => {
         if (!user) return;
 
         const newSet = new Set(solvedProblems);
@@ -49,13 +40,13 @@ const MainApp: React.FC = () => {
         } else {
             newSet.add(id);
         }
-        setSolvedProblems(newSet); // optimistic update
+        setSolvedProblems(newSet);
 
-        await updateProblemStatus(id, !isSolved);
+        updateProblemStatus(user.id, id, !isSolved);
 
     }, [solvedProblems, user]);
 
-    const handleNoteChange = useCallback(async (id: number, text: string) => {
+    const handleNoteChange = useCallback((id: number, text: string) => {
         if (!user) return;
         
         const newMap = new Map(notes);
@@ -66,16 +57,16 @@ const MainApp: React.FC = () => {
         }
         setNotes(newMap);
 
-        await updateNote(id, text);
+        updateNote(user.id, id, text);
 
     }, [notes, user]);
 
-    const handleResetProgress = useCallback(async () => {
+    const handleResetProgress = useCallback(() => {
         if (!user) return;
 
         setSolvedProblems(new Set());
         setNotes(new Map());
-        await resetUserData();
+        resetUserData(user.id);
     }, [user]);
 
     const totalProblems = useMemo(() => sdeSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
@@ -112,6 +103,17 @@ const MainApp: React.FC = () => {
             </div>
         );
     }
+    
+    if (view === 'profile') {
+        return (
+            <ProfilePage
+                user={user}
+                sdeSheet={sdeSheet}
+                solvedProblems={solvedProblems}
+                onNavigateBack={() => setView('tracker')}
+            />
+        )
+    }
 
     return (
         <div className="bg-transparent text-light min-h-screen font-sans">
@@ -120,6 +122,7 @@ const MainApp: React.FC = () => {
                     totalSolved={solvedProblems.size} 
                     totalProblems={totalProblems} 
                     onReset={handleResetProgress}
+                    onNavigateToProfile={() => setView('profile')}
                 />
                 
                 <SearchFilter 

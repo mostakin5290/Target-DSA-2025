@@ -7,6 +7,7 @@ interface HeaderProps {
     totalSolved: number;
     totalProblems: number;
     onReset: () => void;
+    onNavigateToProfile: () => void;
 }
 
 const TargetIcon: React.FC = () => (
@@ -24,8 +25,14 @@ const SettingsIcon: React.FC = () => (
     </svg>
 );
 
+const ProfileIcon: React.FC = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+);
 
-const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset }) => {
+
+const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, onNavigateToProfile }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const progress = totalProblems > 0 ? (totalSolved / totalProblems) * 100 : 0;
     
@@ -57,6 +64,13 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset }) 
                                 aria-label="Open settings"
                             >
                                 <SettingsIcon />
+                            </button>
+                            <button
+                                onClick={onNavigateToProfile}
+                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                                aria-label="View profile"
+                            >
+                                <ProfileIcon />
                             </button>
                             <UserButton afterSignOutUrl="/" />
                         </div>
