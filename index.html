@@ -4,35 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Target DSA 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
             colors: {
-              'background': '#0d1117',
-              'primary': '#161b22',
-              'secondary': '#21262d',
-              'accent': '#238636',
-              'accent-hover': '#2ea043',
-              'light': '#c9d1d9',
-              'dark-text': '#8b949e',
-            }
+              'background': '#050505',
+              'primary': '#111111',
+              'secondary': '#1c1c1c',
+              'accent': '#00f5c3',
+              'accent-hover': '#00d1a7',
+              'light': '#e0e0e0',
+              'dark-text': '#888888',
+              'border': '#222222',
+              'difficulty-easy': '#2ea043',
+              'difficulty-medium': '#f0b429',
+              'difficulty-hard': '#f85149',
+              'difficulty-easy-bg': 'rgba(46, 160, 67, 0.1)',
+              'difficulty-medium-bg': 'rgba(240, 180, 41, 0.1)',
+              'difficulty-hard-bg': 'rgba(248, 81, 73, 0.1)',
+            },
+            animation: {
+                'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+            },
+            keyframes: {
+                fadeInUp: {
+                    '0%': { opacity: '0', transform: 'translateY(20px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+            },
           }
         }
       }
     </script>
+<style>
+  @keyframes moveGrid {
+    from { background-position: 0 0; }
+    to { background-position: -2rem -2rem; }
+  }
+
+  body {
+    background-color: #050505;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+      linear-gradient(to right, #1c1c1c 1px, transparent 1px),
+      linear-gradient(to bottom, #1c1c1c 1px, transparent 1px);
+    background-size: 2rem 2rem;
+    opacity: 0.1;
+    z-index: -1;
+    animation: moveGrid 60s linear infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+</style>
 <script type="importmap">
 {
   "imports": {
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
     "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react": "https://aistudiocdn.com/react@^19.1.1"
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.1.1",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.2.1/"
   }
 }
 </script>
 </head>
-<body class="bg-background antialiased">
+<body class="bg-background font-sans antialiased">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

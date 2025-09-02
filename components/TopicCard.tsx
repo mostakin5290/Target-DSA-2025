@@ -1,4 +1,3 @@
-
 import React, { useMemo, useRef, useEffect } from 'react';
 import type { Topic } from '../types';
 import ProblemRow from './ProblemRow';
@@ -10,9 +9,10 @@ interface TopicCardProps {
     notes: Map<number, string>;
     onNoteChange: (id: number, text: string) => void;
     initiallyOpen: boolean;
+    animationDelay: string;
 }
 
-const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onToggleProblem, notes, onNoteChange, initiallyOpen }) => {
+const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onToggleProblem, notes, onNoteChange, initiallyOpen, animationDelay }) => {
     const detailsRef = useRef<HTMLDetailsElement>(null);
     
     useEffect(() => {
@@ -28,8 +28,12 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
     const progress = topic.problems.length > 0 ? (solvedInTopic / topic.problems.length) * 100 : 0;
 
     return (
-        <details ref={detailsRef} className="bg-primary rounded-lg shadow-md border border-secondary overflow-hidden group">
-            <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors duration-200 hover:bg-secondary">
+        <details 
+            ref={detailsRef} 
+            className="bg-primary rounded-lg shadow-md border border-border overflow-hidden group animate-fade-in-up"
+            style={{ animationDelay }}
+        >
+            <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors duration-200 group-hover:bg-secondary/50 relative border-l-4 border-transparent group-open:border-accent">
                 <div>
                     <h2 className="text-xl font-semibold text-light">{topic.title}</h2>
                     <p className="text-sm text-dark-text mt-1">{`Completed: ${solvedInTopic} of ${topic.problems.length}`}</p>
@@ -43,8 +47,8 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
                     </svg>
                 </div>
             </summary>
-            <div className="border-t border-secondary bg-background/50">
-                <div className="divide-y divide-secondary">
+            <div className="border-t border-border bg-background/50">
+                <div className="divide-y divide-border">
                     {topic.problems.map(problem => (
                         <ProblemRow
                             key={problem.id}
