@@ -5,6 +5,8 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 // Firebase configuration.
+// TODO: Replace this with your own Firebase project's configuration.
+// Follow the step-by-step guide to get these values.
 const firebaseConfig = {
   apiKey: "AIzaSyCMnDRJZSljPB7pDcMkpCLmynTgXIg5pss",
   authDomain: "targetdsa2025.firebaseapp.com",
@@ -24,12 +26,10 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-// Set auth persistence to 'none' (in-memory) to work around web storage restrictions.
-// This will require the user to sign in every time the app is opened or refreshed,
-// but it is necessary for environments where web storage is disabled.
-auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
+// Set auth persistence to 'local' to keep the user signed in across sessions.
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
   .catch((error) => {
-    console.error("Firebase: Could not set auth persistence to 'none'.", error);
+    console.error("Firebase: Could not set auth persistence to 'local'.", error);
   });
 
 export { auth, db, googleProvider };
