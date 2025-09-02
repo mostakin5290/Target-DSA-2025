@@ -4,49 +4,30 @@ import TopicCard from './components/TopicCard';
 import SearchFilter from './components/SearchFilter';
 import Auth from './components/Auth';
 import Spinner from './components/Spinner';
-import { useAuth } from './hooks/useAuth';
-import { db } from './firebase/config';
-// FIX: Update Firebase imports to v8 syntax for FieldValue.
-// Fix: Corrected Firebase imports to use the v9 compatibility layer. This provides the v8 namespaced API and resolves errors where `firebase.firestore` was not found.
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { sdeSheet } from './data/problems';
 import type { Topic } from './types';
+import { getUserData, updateProblemStatus, updateNote, resetUserData } from './services/userData';
 
-const TrackerApp: React.FC = () => {
-    const { user, loading: authLoading } = useAuth();
+
+const MainApp: React.FC = () => {
+    const { isLoaded, user } = useUser();
     const [dataLoading, setDataLoading] = useState(true);
     const [solvedProblems, setSolvedProblems] = useState<Set<number>>(new Set());
     const [notes, setNotes] = useState<Map<number, string>>(new Map());
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        if (!user) {
-            setDataLoading(false);
-            setSolvedProblems(new Set());
-            setNotes(new Map());
+        if (!isLoaded || !user) {
             return;
         }
 
         const fetchData = async () => {
             setDataLoading(true);
-            // FIX: Use v8 syntax for document reference.
-            const userDocRef = db.collection('users').doc(user.uid);
             try {
-                // FIX: Use v8 syntax for getting a document.
-                const docSnap = await userDocRef.get();
-                if (docSnap.exists) {
-                    const data = docSnap.data()!;
-                    setSolvedProblems(new Set(data.solvedProblems || []));
-                    // FIX: Convert Firestore object keys (string) to numbers for the notes Map.
-                    setNotes(new Map(Object.entries(data.notes || {}).map(([key, value]) => [Number(key), value as string])));
-                } else {
-                    // New user, create document
-                    // FIX: Use v8 syntax for setting a document.
-                    await userDocRef.set({ solvedProblems: [], notes: {} });
-                    setSolvedProblems(new Set());
-                    setNotes(new Map());
-                }
+                const userData = await getUserData();
+                setSolvedProblems(new Set(userData.solvedProblems || []));
+                setNotes(new Map(Object.entries(userData.notes || {}).map(([key, value]) => [Number(key), value as string])));
             } catch (error) {
                 console.error("Error fetching user data:", error);
             } finally {
@@ -55,26 +36,23 @@ const TrackerApp: React.FC = () => {
         };
 
         fetchData();
-    }, [user]);
+    }, [isLoaded, user]);
 
     const handleToggleProblem = useCallback(async (id: number) => {
         if (!user) return;
 
         const newSet = new Set(solvedProblems);
-        // FIX: Use v8 syntax for document reference.
-        const userDocRef = db.collection('users').doc(user.uid);
-
-        if (newSet.has(id)) {
+        const isSolved = newSet.has(id);
+        
+        if (isSolved) {
             newSet.delete(id);
-            setSolvedProblems(newSet); // optimistic update
-            // FIX: Use v8 syntax for updating a document with arrayRemove.
-            await userDocRef.update({ solvedProblems: firebase.firestore.FieldValue.arrayRemove(id) });
         } else {
             newSet.add(id);
-            setSolvedProblems(newSet); // optimistic update
-            // FIX: Use v8 syntax for updating a document with arrayUnion.
-            await userDocRef.update({ solvedProblems: firebase.firestore.FieldValue.arrayUnion(id) });
         }
+        setSolvedProblems(newSet); // optimistic update
+
+        await updateProblemStatus(id, !isSolved);
+
     }, [solvedProblems, user]);
 
     const handleNoteChange = useCallback(async (id: number, text: string) => {
@@ -88,15 +66,8 @@ const TrackerApp: React.FC = () => {
         }
         setNotes(newMap);
 
-        // FIX: Use v8 syntax for document reference.
-        const userDocRef = db.collection('users').doc(user.uid);
-        if (text.trim()) {
-            // FIX: Use v8 syntax for updating a document.
-            await userDocRef.update({ [`notes.${id}`]: text });
-        } else {
-            // FIX: Use v8 syntax for updating a document with deleteField.
-            await userDocRef.update({ [`notes.${id}`]: firebase.firestore.FieldValue.delete() });
-        }
+        await updateNote(id, text);
+
     }, [notes, user]);
 
     const handleResetProgress = useCallback(async () => {
@@ -104,11 +75,7 @@ const TrackerApp: React.FC = () => {
 
         setSolvedProblems(new Set());
         setNotes(new Map());
-        
-        // FIX: Use v8 syntax for document reference.
-        const userDocRef = db.collection('users').doc(user.uid);
-        // FIX: Use v8 syntax for setting a document.
-        await userDocRef.set({ solvedProblems: [], notes: {} });
+        await resetUserData();
     }, [user]);
 
     const totalProblems = useMemo(() => sdeSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
@@ -138,19 +105,7 @@ const TrackerApp: React.FC = () => {
 
     const allProblemsSolved = solvedProblems.size === totalProblems && totalProblems > 0;
 
-    if (authLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <Spinner />
-            </div>
-        );
-    }
-
-    if (!user) {
-        return <Auth />;
-    }
-
-    if (dataLoading) {
+    if (!isLoaded || dataLoading) {
         return (
              <div className="min-h-screen flex items-center justify-center">
                 <Spinner />
@@ -192,7 +147,7 @@ const TrackerApp: React.FC = () => {
                                     notes={notes}
                                     onNoteChange={handleNoteChange}
                                     initiallyOpen={!searchQuery && originalIndex === firstUnsolvedTopicIndex}
-                                    animationDelay={`${index * 100}ms`}
+                                    animationDelay={`${index * 50}ms`}
                                 />
                             );
                         })
@@ -214,7 +169,16 @@ const TrackerApp: React.FC = () => {
 
 
 const App: React.FC = () => {
-    return <TrackerApp />;
+    return (
+        <>
+            <SignedIn>
+                <MainApp />
+            </SignedIn>
+            <SignedOut>
+                <Auth />
+            </SignedOut>
+        </>
+    );
 };
 
 export default App;

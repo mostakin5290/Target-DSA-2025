@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { auth, googleProvider } from '../firebase/config';
+import React from 'react';
+import { SignInButton } from "@clerk/clerk-react";
 
 const GoogleIcon = () => (
     <svg className="w-6 h-6 mr-3" viewBox="0 0 48 48">
@@ -11,27 +11,6 @@ const GoogleIcon = () => (
 );
 
 const Auth: React.FC = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const handleSignIn = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            // Switch from signInWithRedirect to signInWithPopup to avoid reliance on web storage.
-            await auth.signInWithPopup(googleProvider);
-            // On successful sign-in, the onAuthStateChanged listener in useAuth
-            // will update the user state, and this component will unmount.
-        } catch (err: any) {
-            // Handle specific errors like popup closed by user gracefully.
-            if (err.code !== 'auth/popup-closed-by-user') {
-                setError('Failed to sign in. Please try again.');
-                console.error("Sign-in error:", err);
-            }
-            setIsLoading(false);
-        }
-    };
-
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-transparent text-light p-4">
             <div className="text-center animate-fade-in-up">
@@ -41,25 +20,15 @@ const Auth: React.FC = () => {
                 </p>
             </div>
             <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                <button
-                    onClick={handleSignIn}
-                    disabled={isLoading}
-                    className="flex items-center justify-center bg-primary hover:bg-secondary transition-colors duration-200 text-light font-medium py-3 px-6 rounded-lg border border-border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                >
-                    {isLoading ? (
-                        <>
-                         <div className="w-6 h-6 border-2 border-dark-text border-t-light rounded-full animate-spin mr-3"></div>
-                         <span>Processing...</span>
-                        </>
-                    ) : (
-                        <>
-                            <GoogleIcon />
-                            <span>Sign in with Google</span>
-                        </>
-                    )}
-                </button>
+                 <SignInButton mode="modal">
+                    <button
+                        className="flex items-center justify-center bg-primary hover:bg-secondary transition-colors duration-200 text-light font-medium py-3 px-6 rounded-lg border border-border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                        <GoogleIcon />
+                        <span>Sign in with Google</span>
+                    </button>
+                 </SignInButton>
             </div>
-            {error && <p className="mt-4 text-red-500 animate-fade-in-up" style={{ animationDelay: '400ms' }}>{error}</p>}
         </div>
     );
 };

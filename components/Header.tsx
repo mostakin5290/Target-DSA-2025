@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
-import { auth } from '../firebase/config';
-// FIX: Remove v9 signOut import.
-// import { signOut } from 'firebase/auth';
+import { UserButton } from '@clerk/clerk-react';
+
 
 interface HeaderProps {
     totalSolved: number;
@@ -25,12 +24,6 @@ const SettingsIcon: React.FC = () => (
     </svg>
 );
 
-const SignOutIcon: React.FC = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-);
-
 
 const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,15 +33,6 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset }) 
         onReset();
         setIsModalOpen(false);
     }
-
-    const handleSignOut = async () => {
-        try {
-            // FIX: Use v8 syntax for signing out.
-            await auth.signOut();
-        } catch (error) {
-            console.error("Error signing out: ", error);
-        }
-    };
 
     return (
         <>
@@ -74,13 +58,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset }) 
                             >
                                 <SettingsIcon />
                             </button>
-                             <button
-                                onClick={handleSignOut}
-                                className="text-dark-text hover:text-light transition-colors duration-200 p-2 rounded-full hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                                aria-label="Sign out"
-                            >
-                                <SignOutIcon />
-                            </button>
+                            <UserButton afterSignOutUrl="/" />
                         </div>
                     </div>
                 </div>
