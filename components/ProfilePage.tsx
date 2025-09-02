@@ -61,13 +61,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
     ];
 
     return (
-        <div className="bg-transparent text-light min-h-screen font-sans">
-            <div className="container mx-auto p-4 md:p-8">
+        <div className="bg-transparent text-text-main min-h-screen font-sans">
+            <div className="container mx-auto max-w-7xl p-4 md:p-8">
                 <header className="flex items-center justify-between mb-8 animate-fade-in-up">
-                    <h1 className="text-3xl font-bold text-light tracking-tight">Profile & Progress</h1>
+                    <h1 className="text-3xl font-bold text-text-main tracking-tight">Profile & Progress</h1>
                     <button
                         onClick={onNavigateBack}
-                        className="flex items-center bg-primary/80 hover:bg-secondary/80 backdrop-blur-lg transition-colors duration-200 text-light font-medium py-2 px-4 rounded-lg border border-border"
+                        className="flex items-center bg-card/80 hover:bg-card-secondary/80 dark:backdrop-blur-lg transition-colors duration-200 text-text-main font-medium py-2 px-4 rounded-lg border border-border"
                     >
                         <BackIcon />
                         Back to Tracker
@@ -75,16 +75,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
                 </header>
 
                 <main className="space-y-8">
-                    <section className="bg-primary/80 border border-border rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 animate-fade-in-up backdrop-blur-lg" style={{ animationDelay: '100ms' }}>
+                    <section className="bg-card/80 border border-border rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 animate-fade-in-up dark:backdrop-blur-lg" style={{ animationDelay: '100ms' }}>
                         <img src={user?.imageUrl} alt="User avatar" className="w-24 h-24 rounded-full border-2 border-accent" />
                         <div className="text-center md:text-left">
                             <h2 className="text-2xl font-bold">{user?.fullName}</h2>
-                            <p className="text-dark-text">{user?.primaryEmailAddress?.emailAddress}</p>
+                            <p className="text-text-secondary">{user?.primaryEmailAddress?.emailAddress}</p>
                         </div>
                     </section>
                     
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <section className="lg:col-span-1 bg-primary/80 border border-border rounded-2xl p-6 flex flex-col items-center justify-center animate-fade-in-up backdrop-blur-lg" style={{ animationDelay: '200ms' }}>
+                        <section className="lg:col-span-1 bg-card/80 border border-border rounded-2xl p-6 flex flex-col items-center justify-center animate-fade-in-up dark:backdrop-blur-lg" style={{ animationDelay: '200ms' }}>
                             <h3 className="text-xl font-semibold mb-4">Overall Progress</h3>
                             <DoughnutChart data={chartData} />
                             <p className="mt-4 text-lg font-semibold text-accent">{`${stats.totalSolved} / ${stats.totalProblems}`}</p>
@@ -92,25 +92,25 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
                                 {chartData.map(d => (
                                     <div key={d.label} className="flex items-center text-sm">
                                         <span className="w-3 h-3 rounded-full mr-1.5" style={{ backgroundColor: d.color }}></span>
-                                        <span className="text-dark-text">{d.label}</span>
+                                        <span className="text-text-secondary">{d.label}</span>
                                     </div>
                                 ))}
                             </div>
                         </section>
 
-                        <section className="lg:col-span-2 bg-primary/80 border border-border rounded-2xl p-6 animate-fade-in-up backdrop-blur-lg" style={{ animationDelay: '300ms' }}>
+                        <section className="lg:col-span-2 bg-card/80 border border-border rounded-2xl p-6 animate-fade-in-up dark:backdrop-blur-lg" style={{ animationDelay: '300ms' }}>
                             <h3 className="text-xl font-semibold mb-6">Topic Performance</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <h4 className="font-semibold text-accent mb-3">Strongest Topics</h4>
                                     <div className="space-y-3">
                                         {strongestTopics.map(topic => (
-                                            <div key={topic.title} className="p-3 bg-secondary/50 rounded-lg">
+                                            <div key={topic.title} className="p-3 bg-card-secondary/50 rounded-lg">
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <span className="font-medium text-sm">{topic.title}</span>
                                                     <span className="text-sm font-bold">{Math.round(topic.progress)}%</span>
                                                 </div>
-                                                <div className="w-full bg-secondary rounded-full h-1.5"><div className="bg-accent h-1.5 rounded-full" style={{ width: `${topic.progress}%` }}></div></div>
+                                                <div className="w-full bg-card-secondary rounded-full h-1.5"><div className="bg-accent h-1.5 rounded-full" style={{ width: `${topic.progress}%` }}></div></div>
                                             </div>
                                         ))}
                                     </div>
@@ -119,14 +119,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
                                      <h4 className="font-semibold text-red-400 mb-3">Weakest Topics</h4>
                                      <div className="space-y-3">
                                         {weakestTopics.length > 0 ? weakestTopics.map(topic => (
-                                            <div key={topic.title} className="p-3 bg-secondary/50 rounded-lg">
+                                            <div key={topic.title} className="p-3 bg-card-secondary/50 rounded-lg">
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <span className="font-medium text-sm">{topic.title}</span>
                                                     <span className="text-sm font-bold">{Math.round(topic.progress)}%</span>
                                                 </div>
-                                                <div className="w-full bg-secondary rounded-full h-1.5"><div className="bg-red-400 h-1.5 rounded-full" style={{ width: `${topic.progress}%` }}></div></div>
+                                                <div className="w-full bg-card-secondary rounded-full h-1.5"><div className="bg-red-400 h-1.5 rounded-full" style={{ width: `${topic.progress}%` }}></div></div>
                                             </div>
-                                        )) : <p className="text-dark-text text-sm p-3">Nothing to improve. Keep going!</p>}
+                                        )) : <p className="text-text-secondary text-sm p-3">Nothing to improve. Keep going!</p>}
                                     </div>
                                 </div>
                             </div>

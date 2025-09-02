@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, createContext, useContext } from 'react';
 import Header from './components/Header';
 import TopicCard from './components/TopicCard';
 import SearchFilter from './components/SearchFilter';
@@ -7,12 +7,65 @@ import Spinner from './components/Spinner';
 import ProfilePage from './components/ProfilePage';
 import Dashboard from './components/Dashboard';
 import NoteModal from './components/NoteModal';
-import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
+// Fix: Removed `light` from `@clerk/themes` import as it is not an exported member. The default theme is light.
+import { dark } from '@clerk/themes';
 import { sdeSheet } from './data/problems';
 import type { Topic, Problem } from './types';
 import { getUserData, updateProblemStatus, updateNote, resetUserData } from './services/userData';
 
-const MainApp: React.FC = () => {
+// --- THEME PROVIDER START ---
+type Theme = 'dark' | 'light' | 'system';
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
+
+const ThemeProvider: React.FC<{
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+}> = ({ children, defaultTheme = 'system', storageKey = 'vite-ui-theme' }) => {
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+  );
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.classList.add(systemTheme);
+      return;
+    }
+
+    root.classList.add(theme);
+  }, [theme]);
+
+  const value = {
+    theme,
+    setTheme: (theme: Theme) => {
+      localStorage.setItem(storageKey, theme);
+      setTheme(theme);
+    },
+  };
+
+  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>;
+};
+
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
+// --- THEME PROVIDER END ---
+
+const TrackerApp: React.FC = () => {
     const { isLoaded, user } = useUser();
     const [dataLoading, setDataLoading] = useState(true);
     const [view, setView] = useState<'tracker' | 'profile'>('tracker');
@@ -115,8 +168,8 @@ const MainApp: React.FC = () => {
     }
 
     return (
-        <div className="bg-transparent text-light min-h-screen font-sans">
-            <div className="container mx-auto p-4 md:p-8">
+        <div className="bg-transparent text-text-main min-h-screen font-sans">
+            <div className="container mx-auto max-w-7xl p-4 md:p-8">
                 <Header 
                     totalSolved={solvedProblems.size} 
                     totalProblems={totalProblems} 
@@ -137,9 +190,9 @@ const MainApp: React.FC = () => {
 
                 <main className="mt-6 space-y-4">
                     {allProblemsSolved && (
-                        <div className="bg-primary/80 border border-border rounded-lg p-8 text-center animate-fade-in-up backdrop-blur-lg">
+                        <div className="bg-card/80 border border-border rounded-lg p-8 text-center animate-fade-in-up backdrop-blur-lg">
                             <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
-                            <p className="mt-2 text-light">You have solved all the problems. Great job!</p>
+                            <p className="mt-2 text-text-main">You have solved all the problems. Great job!</p>
                         </div>
                     )}
 
@@ -162,12 +215,12 @@ const MainApp: React.FC = () => {
                     ) : (
                         !allProblemsSolved && (
                             <div className="text-center py-10 animate-fade-in-up">
-                                <p className="text-dark-text">No problems found for "{searchQuery}"</p>
+                                <p className="text-text-secondary">No problems found for "{searchQuery}"</p>
                             </div>
                         )
                     )}
                 </main>
-                 <footer className="text-center py-8 mt-8 text-dark-text">
+                 <footer className="text-center py-8 mt-8 text-text-secondary">
                     <p>Track your progress. Master DSA. All data saved to your account.</p>
                 </footer>
             </div>
@@ -183,16 +236,72 @@ const MainApp: React.FC = () => {
 };
 
 
-const App: React.FC = () => {
+const ClerkAndApp: React.FC = () => {
+    const { theme } = useTheme();
+
+    const PUBLISHABLE_KEY = 'pk_test_bWlnaHR5LXNwYXJyb3ctNjQuY2xlcmsuYWNjb3VudHMuZGV2JA';
+    if (!PUBLISHABLE_KEY) {
+      throw new Error("Missing Clerk Publishable Key.");
+    }
+
+    const effectiveTheme = theme === 'system' 
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') 
+        : theme;
+
+    const clerkAppearance = 
+        effectiveTheme === 'dark' 
+        ? {
+            baseTheme: dark,
+            variables: {
+              colorPrimary: '#00f5c3',
+              colorBackground: '#050505',
+              colorText: '#e0e0e0',
+              colorInputBackground: '#111111',
+              colorInputText: '#e0e0e0',
+              fontFamily: 'Inter, sans-serif',
+            },
+            elements: {
+              card: { backgroundColor: '#111111', border: '1px solid #222222', boxShadow: 'none' },
+              modalContent: { backgroundColor: '#111111', border: '1px solid #222222', boxShadow: '0 0 20px rgba(0, 245, 195, 0.1)' },
+              socialButtonsBlockButton: { borderColor: '#222222', '&:hover': { backgroundColor: '#1c1c1c' } },
+              dividerLine: { backgroundColor: '#222222' },
+              formFieldInput: { backgroundColor: '#050505', borderColor: '#222222', '&:focus': { borderColor: '#00f5c3' } },
+              formButtonPrimary: { backgroundColor: '#00f5c3', color: '#050505', '&:hover': { backgroundColor: '#00d1a7' }, '&:focus': { backgroundColor: '#00d1a7' }, '&:active': { backgroundColor: '#00d1a7' } },
+              footerActionLink: { color: '#00f5c3', fontWeight: '500', '&:hover': { color: '#00d1a7', textDecoration: 'none' } },
+              userButtonPopoverCard: { backgroundColor: '#111111', border: '1px solid #222222' },
+              userButtonPopoverActionButton: { '&:hover': { backgroundColor: '#1c1c1c' } },
+              userButtonPopoverActionButtonText: { color: '#e0e0e0' }
+            },
+          }
+        : {
+            // Fix: Removed `baseTheme: light` as `light` is not exported and the default theme is light.
+            variables: {
+              colorPrimary: 'var(--accent)',
+              fontFamily: 'Inter, sans-serif',
+            }
+        };
+
     return (
-        <>
+        <ClerkProvider 
+            publishableKey={PUBLISHABLE_KEY} 
+            afterSignOutUrl="/"
+            appearance={clerkAppearance}
+        >
             <SignedIn>
-                <MainApp />
+                <TrackerApp />
             </SignedIn>
             <SignedOut>
                 <Auth />
             </SignedOut>
-        </>
+        </ClerkProvider>
+    );
+}
+
+const App: React.FC = () => {
+    return (
+        <ThemeProvider defaultTheme="system" storageKey="dsa-tracker-theme">
+            <ClerkAndApp />
+        </ThemeProvider>
     );
 };
 

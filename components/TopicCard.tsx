@@ -30,19 +30,19 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
         <details 
             ref={detailsRef} 
             id={`topic-${topic.title}`}
-            className="bg-primary/80 rounded-2xl shadow-lg border border-border overflow-hidden group animate-fade-in-up backdrop-blur-lg"
+            className="bg-card/80 rounded-2xl shadow-lg border border-border overflow-hidden group animate-fade-in-up dark:backdrop-blur-lg"
             style={{ animationDelay }}
         >
-            <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors duration-200 group-hover:bg-secondary/50 relative border-l-4 border-transparent group-open:border-accent">
+            <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors duration-200 group-hover:bg-card-secondary/50 relative border-l-4 border-transparent group-open:border-accent">
                 <div>
-                    <h2 className="text-xl font-semibold text-light">{topic.title}</h2>
-                    <p className="text-sm text-dark-text mt-1">{`Completed: ${solvedInTopic} of ${topic.problems.length}`}</p>
+                    <h2 className="text-xl font-semibold text-text-main">{topic.title}</h2>
+                    <p className="text-sm text-text-secondary mt-1">{`Completed: ${solvedInTopic} of ${topic.problems.length}`}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                     <div className="w-24 bg-secondary rounded-full h-2.5 hidden sm:block">
+                     <div className="w-24 bg-card-secondary rounded-full h-2.5 hidden sm:block">
                         <div className="bg-accent h-2.5 rounded-full" style={{width: `${progress}%`}}></div>
                     </div>
-                    <svg className="w-6 h-6 text-dark-text group-open:rotate-180 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 text-text-secondary group-open:rotate-180 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </div>

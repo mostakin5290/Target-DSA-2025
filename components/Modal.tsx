@@ -65,7 +65,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
 
     return ReactDOM.createPortal(
         <div 
-            className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            className="fixed inset-0 bg-black bg-opacity-60 dark:bg-opacity-80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
             onClick={onClose}
             role="dialog"
             aria-modal="true"
@@ -73,12 +73,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
         >
             <div
                 ref={modalRef}
-                className="bg-primary/80 border border-border backdrop-blur-2xl rounded-2xl shadow-2xl w-full max-w-md p-6 animate-fade-in-up"
+                className="bg-card/90 border border-border dark:backdrop-blur-2xl rounded-2xl shadow-2xl w-full max-w-md p-6 animate-fade-in-up"
                 onClick={(e) => e.stopPropagation()}
             >
                 <header className="flex justify-between items-center border-b border-border pb-3">
-                    <h2 id="modal-title" className="text-xl font-bold text-light">{title}</h2>
-                    <button onClick={onClose} className="text-dark-text hover:text-light" aria-label="Close modal">
+                    <h2 id="modal-title" className="text-xl font-bold text-text-main">{title}</h2>
+                    <button onClick={onClose} className="text-text-secondary hover:text-text-main" aria-label="Close modal">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>

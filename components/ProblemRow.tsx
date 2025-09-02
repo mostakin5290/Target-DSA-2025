@@ -21,7 +21,7 @@ const difficultyConfig = {
 };
 
 const CheckIcon: React.FC = () => (
-    <svg className="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <svg className="h-4 w-4 text-white dark:text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
 );
@@ -40,7 +40,7 @@ const NoteIcon: React.FC = () => (
 
 const ProblemRow: React.FC<ProblemRowProps> = ({ problem, isSolved, onToggle, onEditNote }) => {
     return (
-        <div className="p-4 flex items-center justify-between transition-colors duration-200 hover:bg-secondary/50 group">
+        <div className="p-4 flex items-center justify-between transition-colors duration-200 hover:bg-card-secondary/50 group">
             <div className="flex items-center space-x-4 flex-1 min-w-0">
                 <button
                     onClick={() => onToggle(problem.id)}
@@ -56,7 +56,7 @@ const ProblemRow: React.FC<ProblemRowProps> = ({ problem, isSolved, onToggle, on
                     </div>
                 </button>
                 <div className='min-w-0'>
-                    <span className={`text-base transition-colors duration-200 truncate block ${isSolved ? 'text-dark-text line-through' : 'text-light'}`}>
+                    <span className={`text-base transition-colors duration-200 truncate block ${isSolved ? 'text-text-secondary line-through' : 'text-text-main'}`}>
                         {problem.title}
                     </span>
                 </div>
@@ -67,7 +67,7 @@ const ProblemRow: React.FC<ProblemRowProps> = ({ problem, isSolved, onToggle, on
                 </span>
                 <button
                     onClick={() => onEditNote(problem)}
-                    className="text-dark-text hover:text-light transition-colors duration-200 p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="text-text-secondary hover:text-text-main transition-colors duration-200 p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     aria-label="Edit notes"
                 >
                     <NoteIcon />
@@ -76,7 +76,7 @@ const ProblemRow: React.FC<ProblemRowProps> = ({ problem, isSolved, onToggle, on
                     href={problem.url} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="bg-secondary/50 hover:bg-secondary text-light py-1 px-3 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="bg-card-secondary/50 hover:bg-card-secondary text-text-main py-1 px-3 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     aria-label={`Solve ${problem.title}`}
                 >
                    <span className="hidden sm:inline">Solve</span>

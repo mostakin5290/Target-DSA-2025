@@ -10,21 +10,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
             },
             colors: {
-              'background': '#050505',
-              'primary': 'rgba(28, 28, 28, 0.75)',
-              'secondary': 'rgba(38, 38, 38, 0.5)',
-              'accent': '#00f5c3',
-              'accent-hover': '#00d1a7',
-              'accent-light': '#a7fff1',
-              'light': '#e0e0e0',
-              'dark-text': '#888888',
-              'border': 'rgba(255, 255, 255, 0.1)',
+              'background': 'var(--background)',
+              'card': 'var(--card)',
+              'card-secondary': 'var(--card-secondary)',
+              'text-main': 'var(--text-main)',
+              'text-secondary': 'var(--text-secondary)',
+              'border': 'var(--border)',
+              'accent': 'var(--accent)',
+              'accent-hover': 'var(--accent-hover)',
+              'accent-light': 'var(--accent-light)',
+              
               'difficulty-easy': '#2ea043',
               'difficulty-medium': '#f0b429',
               'difficulty-hard': '#f85149',
@@ -52,8 +54,34 @@
       }
     </script>
 <style>
+  :root {
+    --background: #f9fafb;
+    --card: #ffffff;
+    --card-secondary: #f3f4f6;
+    --text-main: #111827;
+    --text-secondary: #6b7280;
+    --border: #e5e7eb;
+    --accent: #00a884;
+    --accent-hover: #008f71;
+    --accent-light: #c0fff3;
+  }
+
+  html.dark {
+    --background: #050505;
+    --card: rgba(28, 28, 28, 0.75);
+    --card-secondary: rgba(38, 38, 38, 0.5);
+    --text-main: #e0e0e0;
+    --text-secondary: #888888;
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #00f5c3;
+    --accent-hover: #00d1a7;
+    --accent-light: #a7fff1;
+  }
+
   body {
-    background-color: #050505;
+    background-color: var(--background);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
     overflow-x: hidden;
   }
@@ -71,6 +99,12 @@
                 radial-gradient(at 20% 80%, hsla(347, 100%, 50%, 0.1) 0px, transparent 50%);
     z-index: -1;
     animation: aurora 20s ease-in-out infinite alternate;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  html.dark body::before {
+    opacity: 1;
   }
   
   .glassmorphism {
@@ -102,7 +136,7 @@
 }
 </script>
 </head>
-<body class="bg-background font-sans antialiased text-light">
+<body class="bg-background font-sans antialiased text-text-main">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

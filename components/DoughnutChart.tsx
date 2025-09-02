@@ -16,11 +16,11 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         return (
             <div className="relative w-56 h-56">
                 <svg className="w-full h-full" viewBox="0 0 200 200">
-                    <circle r="80" cx="100" cy="100" fill="transparent" stroke="rgba(38, 38, 38, 0.5)" strokeWidth="20" />
+                    <circle r="80" cx="100" cy="100" fill="transparent" className="stroke-card-secondary" strokeWidth="20" />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-4xl font-bold text-light">0</span>
-                    <span className="text-sm text-dark-text">Solved</span>
+                    <span className="text-4xl font-bold text-text-main">0</span>
+                    <span className="text-sm text-text-secondary">Solved</span>
                 </div>
             </div>
         );
@@ -33,7 +33,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
     return (
         <div className="relative w-56 h-56">
             <svg className="w-full h-full" viewBox="0 0 200 200" style={{ transform: 'rotate(-90deg)' }}>
-                 <circle r={radius} cx="100" cy="100" fill="transparent" stroke="rgba(38, 38, 38, 0.5)" strokeWidth="20" />
+                 <circle r={radius} cx="100" cy="100" fill="transparent" className="stroke-card-secondary" strokeWidth="20" />
                 {data.map((item, index) => {
                     if (item.value === 0) return null;
                     const dashArray = (item.value / total) * circumference;
@@ -58,8 +58,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
                 })}
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-bold text-light">{total}</span>
-                <span className="text-sm text-dark-text">Solved</span>
+                <span className="text-4xl font-bold text-text-main">{total}</span>
+                <span className="text-sm text-text-secondary">Solved</span>
             </div>
         </div>
     );
