@@ -222,6 +222,7 @@ const TrackerApp: React.FC = () => {
                 </main>
                  <footer className="text-center py-8 mt-8 text-text-secondary">
                     <p>Track your progress. Master DSA. All data saved to your account.</p>
+                    <p className="mt-2 text-sm">Made with ❤️ by Mostakin Mondal</p>
                 </footer>
             </div>
             <NoteModal 
@@ -254,21 +255,21 @@ const ClerkAndApp: React.FC = () => {
             baseTheme: dark,
             variables: {
               colorPrimary: '#00f5c3',
-              colorBackground: '#050505',
+              colorBackground: '#000000',
               colorText: '#e0e0e0',
               colorInputBackground: '#111111',
               colorInputText: '#e0e0e0',
               fontFamily: 'Inter, sans-serif',
             },
             elements: {
-              card: { backgroundColor: '#111111', border: '1px solid #222222', boxShadow: 'none' },
-              modalContent: { backgroundColor: '#111111', border: '1px solid #222222', boxShadow: '0 0 20px rgba(0, 245, 195, 0.1)' },
+              card: { backgroundColor: '#121212', border: '1px solid #222222', boxShadow: 'none' },
+              modalContent: { backgroundColor: '#121212', border: '1px solid #222222', boxShadow: '0 0 20px rgba(0, 245, 195, 0.1)' },
               socialButtonsBlockButton: { borderColor: '#222222', '&:hover': { backgroundColor: '#1c1c1c' } },
               dividerLine: { backgroundColor: '#222222' },
-              formFieldInput: { backgroundColor: '#050505', borderColor: '#222222', '&:focus': { borderColor: '#00f5c3' } },
+              formFieldInput: { backgroundColor: '#000000', borderColor: '#222222', '&:focus': { borderColor: '#00f5c3' } },
               formButtonPrimary: { backgroundColor: '#00f5c3', color: '#050505', '&:hover': { backgroundColor: '#00d1a7' }, '&:focus': { backgroundColor: '#00d1a7' }, '&:active': { backgroundColor: '#00d1a7' } },
               footerActionLink: { color: '#00f5c3', fontWeight: '500', '&:hover': { color: '#00d1a7', textDecoration: 'none' } },
-              userButtonPopoverCard: { backgroundColor: '#111111', border: '1px solid #222222' },
+              userButtonPopoverCard: { backgroundColor: '#121212', border: '1px solid #222222' },
               userButtonPopoverActionButton: { '&:hover': { backgroundColor: '#1c1c1c' } },
               userButtonPopoverActionButtonText: { color: '#e0e0e0' }
             },
