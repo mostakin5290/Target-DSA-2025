@@ -5,7 +5,7 @@ import DoughnutChart from './DoughnutChart';
 
 interface ProfilePageProps {
     user: UserResource | null | undefined;
-    sdeSheet: Topic[];
+    sheet: Topic[];
     solvedProblems: Set<number>;
     onNavigateBack: () => void;
 }
@@ -16,9 +16,9 @@ const BackIcon: React.FC = () => (
     </svg>
 );
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblems, onNavigateBack }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ user, sheet, solvedProblems, onNavigateBack }) => {
 
-    const allProblems = useMemo(() => sdeSheet.flatMap(topic => topic.problems), [sdeSheet]);
+    const allProblems = useMemo(() => sheet.flatMap(topic => topic.problems), [sheet]);
 
     const stats = useMemo(() => {
         const solvedCount = solvedProblems.size;
@@ -40,7 +40,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
     }, [allProblems, solvedProblems]);
 
     const topicsWithProgress = useMemo(() => {
-        return sdeSheet.map(topic => {
+        return sheet.map(topic => {
             const solvedInTopic = topic.problems.filter(p => solvedProblems.has(p.id)).length;
             const totalInTopic = topic.problems.length;
             const progress = totalInTopic > 0 ? (solvedInTopic / totalInTopic) * 100 : 0;
@@ -49,7 +49,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, sdeSheet, solvedProblem
                 progress: progress
             };
         }).sort((a, b) => b.progress - a.progress);
-    }, [sdeSheet, solvedProblems]);
+    }, [sheet, solvedProblems]);
     
     const strongestTopics = topicsWithProgress.slice(0, 3);
     const weakestTopics = topicsWithProgress.filter(t => t.progress < 100).slice(-3).reverse();

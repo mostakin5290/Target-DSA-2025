@@ -5,22 +5,25 @@ interface UserData {
     notes: Record<string, string>;
 }
 
-// Fetches user progress data from Clerk's unsafeMetadata
-export const getUserData = (user: UserResource): UserData => {
+// Fetches user progress data from Clerk's unsafeMetadata for a specific sheet
+export const getUserData = (user: UserResource, sheetKey: string): UserData => {
     const metadata = user.unsafeMetadata || {};
-    const solvedProblems = (Array.isArray(metadata.solvedProblems) ? metadata.solvedProblems : []) as number[];
-    const notes = (typeof metadata.notes === 'object' && metadata.notes !== null ? metadata.notes : {}) as Record<string, string>;
+    const sheetData = (metadata[sheetKey] as UserData) || { solvedProblems: [], notes: {} };
+
+    const solvedProblems = Array.isArray(sheetData.solvedProblems) ? sheetData.solvedProblems : [];
+    const notes = typeof sheetData.notes === 'object' && sheetData.notes !== null ? sheetData.notes : {};
 
     return { solvedProblems, notes };
 };
 
-// Updates a problem's solved status in Clerk's unsafeMetadata
-export const updateProblemStatus = async (user: UserResource, problemId: number, isSolved: boolean): Promise<void> => {
+// Updates a problem's solved status in Clerk's unsafeMetadata for a specific sheet
+export const updateProblemStatus = async (user: UserResource, problemId: number, isSolved: boolean, sheetKey: string): Promise<void> => {
     if (!user) return;
 
     try {
-        const currentData = getUserData(user);
-        const solvedSet = new Set(currentData.solvedProblems);
+        const allMetadata = user.unsafeMetadata || {};
+        const currentSheetData = getUserData(user, sheetKey);
+        const solvedSet = new Set(currentSheetData.solvedProblems);
 
         if (isSolved) {
             solvedSet.add(problemId);
@@ -28,11 +31,15 @@ export const updateProblemStatus = async (user: UserResource, problemId: number,
             solvedSet.delete(problemId);
         }
 
+        const updatedSheetData = {
+            ...currentSheetData,
+            solvedProblems: Array.from(solvedSet),
+        };
+
         await user.update({
             unsafeMetadata: {
-                ...user.unsafeMetadata,
-                notes: currentData.notes, // Ensure notes are carried over
-                solvedProblems: Array.from(solvedSet),
+                ...allMetadata,
+                [sheetKey]: updatedSheetData,
             },
         });
     } catch (error) {
@@ -40,25 +47,30 @@ export const updateProblemStatus = async (user: UserResource, problemId: number,
     }
 };
 
-// Updates a problem's note in Clerk's unsafeMetadata
-export const updateNote = async (user: UserResource, problemId: number, text: string): Promise<void> => {
+// Updates a problem's note in Clerk's unsafeMetadata for a specific sheet
+export const updateNote = async (user: UserResource, problemId: number, text: string, sheetKey: string): Promise<void> => {
     if (!user) return;
 
     try {
-        const currentData = getUserData(user);
-        const updatedNotes = { ...currentData.notes };
+        const allMetadata = user.unsafeMetadata || {};
+        const currentSheetData = getUserData(user, sheetKey);
+        const updatedNotes = { ...currentSheetData.notes };
 
         if (text.trim()) {
             updatedNotes[String(problemId)] = text;
         } else {
             delete updatedNotes[String(problemId)];
         }
+        
+        const updatedSheetData = {
+            ...currentSheetData,
+            notes: updatedNotes,
+        };
 
         await user.update({
             unsafeMetadata: {
-                ...user.unsafeMetadata,
-                solvedProblems: currentData.solvedProblems, // Ensure solved problems are carried over
-                notes: updatedNotes,
+                ...allMetadata,
+                [sheetKey]: updatedSheetData,
             },
         });
     } catch (error) {
@@ -66,15 +78,19 @@ export const updateNote = async (user: UserResource, problemId: number, text: st
     }
 };
 
-// Resets all user progress data in Clerk's unsafeMetadata
-export const resetUserData = async (user: UserResource): Promise<void> => {
+// Resets all user progress data in Clerk's unsafeMetadata for a specific sheet
+export const resetUserData = async (user: UserResource, sheetKey: string): Promise<void> => {
     if (!user) return;
 
     try {
+        const allMetadata = user.unsafeMetadata || {};
         await user.update({
             unsafeMetadata: {
-                solvedProblems: [],
-                notes: {},
+                ...allMetadata,
+                [sheetKey]: {
+                    solvedProblems: [],
+                    notes: {},
+                }
             },
         });
     } catch (error) {

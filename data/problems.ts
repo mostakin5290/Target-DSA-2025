@@ -310,3 +310,61 @@ export const sdeSheet: Topic[] = [
         ]
     }
 ];
+
+export const striverSdeSheet: Topic[] = [
+    {
+        title: "Day 1: Arrays",
+        problems: [
+            { id: 501, title: "Sort an array of 0s, 1s and 2s", url: "https://leetcode.com/problems/sort-colors/", difficulty: "Medium" },
+            { id: 502, title: "Find the duplicate in an array of N+1 integers", url: "https://leetcode.com/problems/find-the-duplicate-number/", difficulty: "Medium" },
+            { id: 503, title: "Repeat and Missing Number", url: "https://www.interviewbit.com/problems/repeat-and-missing-number-array/", difficulty: "Medium" },
+            { id: 504, title: "Merge two sorted arrays without extra space", url: "https://leetcode.com/problems/merge-sorted-array/", difficulty: "Easy" },
+            { id: 505, title: "Kadane’s Algorithm", url: "https://leetcode.com/problems/maximum-subarray/", difficulty: "Easy" },
+            { id: 506, title: "Merge Overlapping Subintervals", url: "https://leetcode.com/problems/merge-intervals/", difficulty: "Medium" },
+        ]
+    },
+    {
+        title: "Day 2: Arrays Part-II",
+        problems: [
+            { id: 507, title: "Set Matrix Zeroes", url: "https://leetcode.com/problems/set-matrix-zeroes/", difficulty: "Medium" },
+            { id: 508, title: "Pascal's Triangle", url: "https://leetcode.com/problems/pascals-triangle/", difficulty: "Easy" },
+            { id: 509, title: "Next Permutation", url: "https://leetcode.com/problems/next-permutation/", difficulty: "Medium" },
+            { id: 510, title: "Inversion of Array", url: "https://www.codingninjas.com/codestudio/problems/count-inversions_615", difficulty: "Hard" },
+            { id: 511, title: "Best Time to Buy and Sell Stock", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", difficulty: "Easy" },
+            { id: 512, title: "Rotate Matrix", url: "https://leetcode.com/problems/rotate-image/", difficulty: "Medium" },
+        ]
+    },
+    {
+        title: "Day 3: Arrays Part-III",
+        problems: [
+            { id: 513, title: "Search in a 2D Matrix", url: "https://leetcode.com/problems/search-a-2d-matrix/", difficulty: "Medium" },
+            { id: 514, title: "Pow(X, n)", url: "https://leetcode.com/problems/powx-n/", difficulty: "Medium" },
+            { id: 515, title: "Majority Element (>N/2 times)", url: "https://leetcode.com/problems/majority-element/", difficulty: "Easy" },
+            { id: 516, title: "Majority Element (>N/3 times)", url: "https://leetcode.com/problems/majority-element-ii/", difficulty: "Medium" },
+            { id: 517, title: "Grid Unique Paths", url: "https://leetcode.com/problems/unique-paths/", difficulty: "Medium" },
+            { id: 518, title: "Reverse Pairs", url: "https://leetcode.com/problems/reverse-pairs/", difficulty: "Hard" },
+        ]
+    },
+    {
+        title: "Day 4: Arrays Part-IV",
+        problems: [
+            { id: 519, title: "2 Sum Problem", url: "https://leetcode.com/problems/two-sum/", difficulty: "Easy" },
+            { id: 520, title: "4 Sum Problem", url: "https://leetcode.com/problems/4sum/", difficulty: "Medium" },
+            { id: 521, title: "Longest Consecutive Sequence", url: "https://leetcode.com/problems/longest-consecutive-sequence/", difficulty: "Medium" },
+            { id: 522, title: "Largest subarray with 0 sum", url: "https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1", difficulty: "Medium" },
+            { id: 523, title: "Count number of subarrays with given XOR", url: "https://www.interviewbit.com/problems/subarray-with-given-xor/", difficulty: "Hard" },
+            { id: 524, title: "Longest Substring without repeat", url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", difficulty: "Medium" },
+        ]
+    },
+    {
+        title: "Day 5: Linked List",
+        problems: [
+            { id: 525, title: "Reverse a LinkedList", url: "https://leetcode.com/problems/reverse-linked-list/", difficulty: "Easy" },
+            { id: 526, title: "Find middle of LinkedList", url: "https://leetcode.com/problems/middle-of-the-linked-list/", difficulty: "Easy" },
+            { id: 527, title: "Merge two sorted Linked List", url: "https://leetcode.com/problems/merge-two-sorted-lists/", difficulty: "Easy" },
+            { id: 528, title: "Remove N-th node from back of LinkedList", url: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", difficulty: "Medium" },
+            { id: 529, title: "Add two numbers as LinkedList", url: "https://leetcode.com/problems/add-two-numbers/", difficulty: "Medium" },
+            { id: 530, title: "Delete a given Node when a node is given", url: "https://leetcode.com/problems/delete-node-in-a-linked-list/", difficulty: "Easy" },
+        ]
+    }
+];
