@@ -21,27 +21,21 @@ export default {
         'accent-hover': 'var(--accent-hover)',
         'accent-light': 'var(--accent-light)',
         
-        'difficulty-easy': '#2ea043',
-        'difficulty-medium': '#f0b429',
-        'difficulty-hard': '#f85149',
-        'difficulty-easy-bg': 'rgba(46, 160, 67, 0.15)',
-        'difficulty-medium-bg': 'rgba(240, 180, 41, 0.15)',
-        'difficulty-hard-bg': 'rgba(248, 81, 73, 0.15)',
+        'difficulty-easy': 'var(--difficulty-easy)',
+        'difficulty-medium': 'var(--difficulty-medium)',
+        'difficulty-hard': 'var(--difficulty-hard)',
+        'difficulty-easy-bg': 'var(--difficulty-easy-bg)',
+        'difficulty-medium-bg': 'var(--difficulty-medium-bg)',
+        'difficulty-hard-bg': 'var(--difficulty-hard-bg)',
       },
       animation: {
           'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-          'aurora': 'aurora 60s infinite',
       },
       keyframes: {
           fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
           },
-          aurora: {
-            '0%': { backgroundPosition: '0% 50%' },
-            '50%': { backgroundPosition: '100% 50%' },
-            '100%': { backgroundPosition: '0% 50%' },
-          }
       },
     }
   },

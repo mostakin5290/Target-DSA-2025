@@ -5,7 +5,8 @@ import SearchFilter from './components/SearchFilter';
 import Auth from './components/Auth';
 import Spinner from './components/Spinner';
 import ProfilePage from './components/ProfilePage';
-import Dashboard from './components/Dashboard';
+import LeftSidebar from './components/LeftSidebar';
+import RightSidebar from './components/RightSidebar';
 import NoteModal from './components/NoteModal';
 import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
 import { dark } from '@clerk/themes';
@@ -91,7 +92,7 @@ const TrackerApp: React.FC = () => {
         if (openTopic) {
             const element = document.getElementById(`topic-${openTopic}`);
             if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
     }, [openTopic]);
@@ -170,62 +171,61 @@ const TrackerApp: React.FC = () => {
     }
 
     return (
-        <div className="bg-transparent text-text-main min-h-screen font-sans">
-            <div className="container mx-auto max-w-7xl p-4 md:p-8">
-                <Header 
-                    totalSolved={solvedProblems.size} 
-                    totalProblems={totalProblems} 
-                    onReset={handleResetProgress}
-                    onNavigateToProfile={() => setView('profile')}
-                />
-                
-                <Dashboard 
-                    topics={problemSheet} 
-                    solvedProblems={solvedProblems} 
-                    onSelectProblem={handleSelectProblemFromDashboard}
-                />
-                
-                <SearchFilter 
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                />
+        <div className="bg-background text-text-main min-h-screen font-sans">
+            <Header 
+                onReset={handleResetProgress}
+                onNavigateToProfile={() => setView('profile')}
+            />
+            <div className="container mx-auto max-w-screen-2xl p-4 md:p-6">
+                 <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_320px] gap-6">
+                    <LeftSidebar />
 
-                <main className="mt-6 space-y-4">
-                    {allProblemsSolved && (
-                        <div className="bg-card/80 border border-border rounded-lg p-8 text-center animate-fade-in-up backdrop-blur-lg">
-                            <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
-                            <p className="mt-2 text-text-main">You have solved all the problems. Great job!</p>
+                    {/* Main Content */}
+                    <main>
+                         <SearchFilter 
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                        />
+                        <div className="mt-4 space-y-2">
+                           {allProblemsSolved && (
+                                <div className="bg-card border border-border rounded-lg p-8 text-center animate-fade-in-up">
+                                    <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
+                                    <p className="mt-2 text-text-main">You have solved all the problems. Great job!</p>
+                                </div>
+                            )}
+
+                            {filteredTopics.length > 0 ? (
+                                filteredTopics.map((topic: Topic, index) => {
+                                    const originalIndex = problemSheet.findIndex(t => t.title === topic.title);
+                                    const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
+                                    return (
+                                        <TopicCard 
+                                            key={topic.title}
+                                            topic={topic}
+                                            solvedProblems={solvedProblems}
+                                            onToggleProblem={handleToggleProblem}
+                                            onEditNote={setEditingProblem}
+                                            initiallyOpen={isInitiallyOpen}
+                                            animationDelay={`${index * 50}ms`}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                !allProblemsSolved && (
+                                    <div className="text-center py-10 animate-fade-in-up">
+                                        <p className="text-text-secondary">No problems found for "{searchQuery}"</p>
+                                    </div>
+                                )
+                            )}
                         </div>
-                    )}
+                    </main>
 
-                    {filteredTopics.length > 0 ? (
-                        filteredTopics.map((topic: Topic, index) => {
-                            const originalIndex = problemSheet.findIndex(t => t.title === topic.title);
-                            const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
-                            return (
-                                <TopicCard 
-                                    key={topic.title}
-                                    topic={topic}
-                                    solvedProblems={solvedProblems}
-                                    onToggleProblem={handleToggleProblem}
-                                    onEditNote={setEditingProblem}
-                                    initiallyOpen={isInitiallyOpen}
-                                    animationDelay={`${index * 50}ms`}
-                                />
-                            );
-                        })
-                    ) : (
-                        !allProblemsSolved && (
-                            <div className="text-center py-10 animate-fade-in-up">
-                                <p className="text-text-secondary">No problems found for "{searchQuery}"</p>
-                            </div>
-                        )
-                    )}
-                </main>
-                 <footer className="text-center py-8 mt-8 text-text-secondary">
-                    <p>Track your progress. Master DSA. All data saved to your account.</p>
-                    <p className="mt-2 text-sm">Made with ❤️ by Mostakin Mondal</p>
-                </footer>
+                    <RightSidebar 
+                        topics={problemSheet}
+                        solvedProblems={solvedProblems}
+                        onSelectProblem={handleSelectProblemFromDashboard}
+                    />
+                </div>
             </div>
             <NoteModal 
                 problem={editingProblem}
@@ -256,23 +256,23 @@ const ClerkAndApp: React.FC = () => {
         ? {
             baseTheme: dark,
             variables: {
-              colorPrimary: '#00f5c3',
-              colorBackground: '#000000',
+              colorPrimary: '#00af9b',
+              colorBackground: '#0a0a0a',
               colorText: '#e0e0e0',
               colorInputBackground: '#111111',
               colorInputText: '#e0e0e0',
               fontFamily: 'Inter, sans-serif',
             },
             elements: {
-              card: { backgroundColor: '#121212', border: '1px solid #222222', boxShadow: 'none' },
-              modalContent: { backgroundColor: '#121212', border: '1px solid #222222', boxShadow: '0 0 20px rgba(0, 245, 195, 0.1)' },
-              socialButtonsBlockButton: { borderColor: '#222222', '&:hover': { backgroundColor: '#1c1c1c' } },
-              dividerLine: { backgroundColor: '#222222' },
-              formFieldInput: { backgroundColor: '#000000', borderColor: '#222222', '&:focus': { borderColor: '#00f5c3' } },
-              formButtonPrimary: { backgroundColor: '#00f5c3', color: '#050505', '&:hover': { backgroundColor: '#00d1a7' }, '&:focus': { backgroundColor: '#00d1a7' }, '&:active': { backgroundColor: '#00d1a7' } },
-              footerActionLink: { color: '#00f5c3', fontWeight: '500', '&:hover': { color: '#00d1a7', textDecoration: 'none' } },
-              userButtonPopoverCard: { backgroundColor: '#121212', border: '1px solid #222222' },
-              userButtonPopoverActionButton: { '&:hover': { backgroundColor: '#1c1c1c' } },
+              card: { backgroundColor: '#1a1a1a', border: '1px solid var(--border)', boxShadow: 'none' },
+              modalContent: { backgroundColor: '#1a1a1a', border: '1px solid var(--border)', boxShadow: '0 0 20px rgba(0, 175, 155, 0.1)' },
+              socialButtonsBlockButton: { borderColor: 'var(--border)', '&:hover': { backgroundColor: '#282828' } },
+              dividerLine: { backgroundColor: 'var(--border)' },
+              formFieldInput: { backgroundColor: '#0a0a0a', borderColor: 'var(--border)', '&:focus': { borderColor: 'var(--accent)' } },
+              formButtonPrimary: { backgroundColor: 'var(--accent)', color: '#050505', '&:hover': { backgroundColor: 'var(--accent-hover)' }, '&:focus': { backgroundColor: 'var(--accent-hover)' }, '&:active': { backgroundColor: 'var(--accent-hover)' } },
+              footerActionLink: { color: 'var(--accent)', fontWeight: '500', '&:hover': { color: 'var(--accent-hover)', textDecoration: 'none' } },
+              userButtonPopoverCard: { backgroundColor: '#1a1a1a', border: '1px solid var(--border)' },
+              userButtonPopoverActionButton: { '&:hover': { backgroundColor: '#282828' } },
               userButtonPopoverActionButtonText: { color: '#e0e0e0' }
             },
           }
@@ -301,7 +301,7 @@ const ClerkAndApp: React.FC = () => {
 
 const App: React.FC = () => {
     return (
-        <ThemeProvider defaultTheme="system" storageKey="dsa-tracker-theme">
+        <ThemeProvider defaultTheme="dark" storageKey="dsa-tracker-theme">
             <ClerkAndApp />
         </ThemeProvider>
     );

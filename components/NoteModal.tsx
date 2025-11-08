@@ -56,14 +56,14 @@ const NoteModal: React.FC<NoteModalProps> = ({ problem, note, isOpen, onClose, o
 
     return ReactDOM.createPortal(
         <div 
-            className="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
             onClick={onClose}
             role="dialog"
             aria-modal="true"
         >
             <div
                 ref={modalRef}
-                className="bg-card/95 border border-border dark:backdrop-blur-2xl rounded-2xl shadow-2xl w-full max-w-2xl p-6 animate-fade-in-up"
+                className="bg-card border border-border rounded-lg shadow-2xl w-full max-w-2xl p-6 animate-fade-in-up"
                 onClick={(e) => e.stopPropagation()}
             >
                 <header className="border-b border-border pb-3 mb-4">
@@ -75,7 +75,7 @@ const NoteModal: React.FC<NoteModalProps> = ({ problem, note, isOpen, onClose, o
                     ref={textareaRef}
                     value={currentNote}
                     onChange={(e) => setCurrentNote(e.target.value)}
-                    className="w-full bg-card-secondary/50 border border-border rounded-lg p-3 text-text-main placeholder-text-secondary focus:ring-2 focus:ring-accent/50 focus:border-accent transition resize-none"
+                    className="w-full bg-card-secondary border border-border rounded-lg p-3 text-text-main placeholder-text-secondary focus:ring-2 focus:ring-accent/50 focus:border-accent/80 transition resize-none"
                     placeholder="Jot down your notes here... What's the brute force? Can you optimize it?"
                     rows={8}
                 />
@@ -92,11 +92,11 @@ const NoteModal: React.FC<NoteModalProps> = ({ problem, note, isOpen, onClose, o
                     {isHintLoading && <div className="mt-4"><Spinner /></div>}
                     {aiHint && (
                         <blockquote className="mt-4 p-3 border-l-4 border-accent bg-accent/10 text-accent-light dark:text-accent-light rounded-r-lg">
-                            <p className="italic text-text-main dark:text-accent-light">{aiHint}</p>
+                            <p className="italic text-text-main">{aiHint}</p>
                         </blockquote>
                     )}
                     {hintError && (
-                         <div className="mt-4 p-3 border-l-4 border-red-500 bg-red-500/10 text-red-500 rounded-r-lg">
+                         <div className="mt-4 p-3 border-l-4 border-difficulty-hard bg-difficulty-hard-bg text-difficulty-hard rounded-r-lg">
                             <p>{hintError}</p>
                         </div>
                     )}

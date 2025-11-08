@@ -39,29 +39,28 @@ const Dashboard: React.FC<DashboardProps> = ({ topics, solvedProblems, onSelectP
     if (!problemOfTheDay) return null;
 
     return (
-        <div className="my-8 animate-fade-in-up grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 p-6 rounded-2xl bg-card/80 border border-border dark:backdrop-blur-lg shadow-lg">
+        <div className="space-y-6">
+            <div className="p-4 rounded-lg bg-card border border-border">
                 <h3 className="text-sm font-semibold text-accent/80 tracking-widest uppercase">Problem of the Day</h3>
-                <h2 className="text-2xl font-bold text-text-main mt-2">{problemOfTheDay.title}</h2>
-                <p className="text-text-secondary mt-1">Challenge yourself with today's pick!</p>
+                <h4 className="font-semibold text-text-main mt-2 truncate">{problemOfTheDay.title}</h4>
                 <a 
                     href={problemOfTheDay.url} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="inline-block mt-4 bg-accent hover:bg-accent-hover text-white dark:text-black font-bold py-2 px-4 rounded-lg transition-colors"
+                    className="inline-block mt-3 text-sm bg-card-secondary hover:bg-opacity-80 text-text-main font-medium py-1.5 px-3 rounded-md transition-colors"
                 >
                     Solve Now
                 </a>
             </div>
-            <div className="p-6 rounded-2xl bg-card/80 border border-border dark:backdrop-blur-lg shadow-lg flex flex-col justify-center">
-                <h3 className="text-lg font-bold text-text-main">Feeling Adventurous?</h3>
-                <p className="text-text-secondary mt-1">Let's find a random unsolved problem for you.</p>
+            <div className="p-4 rounded-lg bg-card border border-border">
+                <h3 className="text-base font-semibold text-text-main">Feeling Adventurous?</h3>
+                <p className="text-sm text-text-secondary mt-1">Pick a random problem.</p>
                 <button
                     onClick={handleRandomProblem}
                     disabled={unsolvedProblems.length === 0}
-                    className="mt-4 w-full bg-card-secondary hover:bg-opacity-80 disabled:opacity-50 disabled:cursor-not-allowed text-text-main font-bold py-2 px-4 rounded-lg transition-colors"
+                    className="mt-3 w-full bg-card-secondary hover:bg-opacity-80 disabled:opacity-50 disabled:cursor-not-allowed text-text-main font-medium py-1.5 px-3 rounded-md transition-colors text-sm"
                 >
-                    {unsolvedProblems.length > 0 ? 'Pick a Random Problem' : 'All Solved!'}
+                    {unsolvedProblems.length > 0 ? 'Pick Problem' : 'All Solved!'}
                 </button>
             </div>
         </div>
