@@ -8,7 +8,6 @@ import ProfilePage from './components/ProfilePage';
 import Dashboard from './components/Dashboard';
 import NoteModal from './components/NoteModal';
 import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
-// Fix: Removed `light` from `@clerk/themes` import as it is not an exported member. The default theme is light.
 import { dark } from '@clerk/themes';
 import { sdeSheet, striverSdeSheet } from './data/problems';
 import type { Topic, Problem } from './types';
@@ -288,7 +287,6 @@ const ClerkAndApp: React.FC = () => {
             },
           }
         : {
-            // Fix: Removed `baseTheme: light` as `light` is not exported and the default theme is light.
             variables: {
               colorPrimary: 'var(--accent)',
               fontFamily: 'Inter, sans-serif',

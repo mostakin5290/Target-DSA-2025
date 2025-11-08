@@ -7,131 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              'background': 'var(--background)',
-              'card': 'var(--card)',
-              'card-secondary': 'var(--card-secondary)',
-              'text-main': 'var(--text-main)',
-              'text-secondary': 'var(--text-secondary)',
-              'border': 'var(--border)',
-              'accent': 'var(--accent)',
-              'accent-hover': 'var(--accent-hover)',
-              'accent-light': 'var(--accent-light)',
-              
-              'difficulty-easy': '#2ea043',
-              'difficulty-medium': '#f0b429',
-              'difficulty-hard': '#f85149',
-              'difficulty-easy-bg': 'rgba(46, 160, 67, 0.15)',
-              'difficulty-medium-bg': 'rgba(240, 180, 41, 0.15)',
-              'difficulty-hard-bg': 'rgba(248, 81, 73, 0.15)',
-            },
-            animation: {
-                'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-                'aurora': 'aurora 60s infinite',
-            },
-            keyframes: {
-                fadeInUp: {
-                    '0%': { opacity: '0', transform: 'translateY(20px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                },
-                aurora: {
-                  '0%': { backgroundPosition: '0% 50%' },
-                  '50%': { backgroundPosition: '100% 50%' },
-                  '100%': { backgroundPosition: '0% 50%' },
-                }
-            },
-          }
-        }
-      }
-    </script>
-<style>
-  :root {
-    --background: #f9fafb;
-    --card: #ffffff;
-    --card-secondary: #f3f4f6;
-    --text-main: #111827;
-    --text-secondary: #6b7280;
-    --border: #e5e7eb;
-    --accent: #00a884;
-    --accent-hover: #008f71;
-    --accent-light: #c0fff3;
-  }
-
-  html.dark {
-    --background: #000000;
-    --card: #121212;
-    --card-secondary: #1e1e1e;
-    --text-main: #e0e0e0;
-    --text-secondary: #888888;
-    --border: #222222;
-    --accent: #00f5c3;
-    --accent-hover: #00d1a7;
-    --accent-light: #a7fff1;
-  }
-
-  body {
-    background-color: var(--background);
-    color: var(--text-main);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    position: relative;
-    overflow-x: hidden;
-  }
-  
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(at 20% 20%, hsla(167, 100%, 50%, 0.1) 0px, transparent 50%), 
-                radial-gradient(at 80% 20%, hsla(289, 100%, 50%, 0.1) 0px, transparent 50%), 
-                radial-gradient(at 80% 80%, hsla(202, 100%, 50%, 0.1) 0px, transparent 50%), 
-                radial-gradient(at 20% 80%, hsla(347, 100%, 50%, 0.1) 0px, transparent 50%);
-    z-index: -1;
-    animation: aurora 20s ease-in-out infinite alternate;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  html.dark body::before {
-    opacity: 1;
-  }
-  
-  .glassmorphism {
-    background: rgba(28, 28, 28, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .animate-fade-in-up {
-    animation: fadeInUp 0.5s ease-out forwards;
-    opacity: 0;
-  }
-
-</style>
+    <link rel="stylesheet" href="/index.css" />
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom": "https://esm.sh/react-dom@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "@clerk/clerk-react": "https://esm.sh/@clerk/clerk-react@5",
-    "@clerk/themes": "https://esm.sh/@clerk/themes@2",
-    "@google/genai": "https://esm.sh/@google/genai",
-    "@clerk/types": "https://aistudiocdn.com/@clerk/types@^4.84.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.2",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@clerk/clerk-react": "https://aistudiocdn.com/@clerk/clerk-react@^5.53.8",
+    "@clerk/types": "https://aistudiocdn.com/@clerk/types@^4.97.2",
+    "@clerk/themes": "https://aistudiocdn.com/@clerk/themes@^2.4.33"
   }
 }
 </script>
