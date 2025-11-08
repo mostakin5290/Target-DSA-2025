@@ -12,7 +12,7 @@ import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react'
 import { dark } from '@clerk/themes';
 import { problemSheet } from './data/problems';
 import type { Topic, Problem } from './types';
-import { getUserData, updateProblemStatus, updateNote, resetUserData } from './services/userData';
+import { getUserData, updateProblemStatus, updateNote, resetUserData, updateProblemFavoriteStatus } from './services/userData';
 
 // --- THEME PROVIDER START ---
 type Theme = 'dark' | 'light' | 'system';
@@ -73,16 +73,19 @@ const TrackerApp: React.FC = () => {
     const [view, setView] = useState<'tracker' | 'profile'>('tracker');
     
     const [solvedProblems, setSolvedProblems] = useState<Set<number>>(new Set());
+    const [favoriteProblems, setFavoriteProblems] = useState<Set<number>>(new Set());
     const [notes, setNotes] = useState<Map<number, string>>(new Map());
     const [searchQuery, setSearchQuery] = useState('');
     const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
     const [openTopic, setOpenTopic] = useState<string | null>(null);
+    const [activeView, setActiveView] = useState<'library' | 'favorites'>('library');
 
     useEffect(() => {
         if (isLoaded && user) {
             setDataLoading(true);
             const userData = getUserData(user, SHEET_STORAGE_KEY);
             setSolvedProblems(new Set(userData.solvedProblems));
+            setFavoriteProblems(new Set(userData.favoriteProblems));
             setNotes(new Map(Object.entries(userData.notes).map(([key, value]) => [Number(key), value as string])));
             setDataLoading(false);
         }
@@ -107,6 +110,16 @@ const TrackerApp: React.FC = () => {
         await updateProblemStatus(user, id, !isSolved, SHEET_STORAGE_KEY);
     }, [solvedProblems, user]);
 
+    const handleToggleFavorite = useCallback(async (id: number) => {
+        if (!user) return;
+        const newSet = new Set(favoriteProblems);
+        const isFavorite = newSet.has(id);
+        if (isFavorite) newSet.delete(id);
+        else newSet.add(id);
+        setFavoriteProblems(newSet);
+        await updateProblemFavoriteStatus(user, id, !isFavorite, SHEET_STORAGE_KEY);
+    }, [favoriteProblems, user]);
+
     const handleNoteChange = useCallback(async (id: number, text: string) => {
         if (!user) return;
         const newMap = new Map(notes);
@@ -120,34 +133,53 @@ const TrackerApp: React.FC = () => {
         if (!user) return;
         setSolvedProblems(new Set());
         setNotes(new Map());
+        setFavoriteProblems(new Set());
         await resetUserData(user, SHEET_STORAGE_KEY);
     }, [user]);
     
-    const handleSelectProblemFromDashboard = (problemId: number) => {
+    const handleSelectProblem = (problemId: number) => {
         const topicForProblem = problemSheet.find(t => t.problems.some(p => p.id === problemId));
         if (topicForProblem) {
             setOpenTopic(topicForProblem.title);
         }
     };
+    
+    const handleSelectProblemFromModal = (problemId: number) => {
+        setEditingProblem(null);
+        // Timeout to allow modal to close before scrolling
+        setTimeout(() => handleSelectProblem(problemId), 100);
+    };
 
     const totalProblems = useMemo(() => problemSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
 
     const filteredTopics = useMemo(() => {
-        if (!searchQuery.trim()) return problemSheet;
+        let baseTopics = problemSheet;
+
+        if (activeView === 'favorites') {
+            baseTopics = problemSheet
+                .map(topic => ({
+                    ...topic,
+                    problems: topic.problems.filter(problem => favoriteProblems.has(problem.id)),
+                }))
+                .filter(topic => topic.problems.length > 0);
+        }
+
+        if (!searchQuery.trim()) return baseTopics;
+
         const lowercasedQuery = searchQuery.toLowerCase();
-        return problemSheet
+        return baseTopics
             .map(topic => ({
                 ...topic,
                 problems: topic.problems.filter(problem => problem.title.toLowerCase().includes(lowercasedQuery)),
             }))
             .filter(topic => topic.problems.length > 0);
-    }, [searchQuery]);
+    }, [searchQuery, activeView, favoriteProblems]);
 
     const firstUnsolvedTopicIndex = useMemo(() => {
-        if (searchQuery) return -1;
+        if (searchQuery || activeView === 'favorites') return -1;
         const index = problemSheet.findIndex(topic => topic.problems.some(p => !solvedProblems.has(p.id)));
         return index;
-    }, [solvedProblems, searchQuery]);
+    }, [solvedProblems, searchQuery, activeView]);
 
     const allProblemsSolved = solvedProblems.size === totalProblems && totalProblems > 0;
 
@@ -178,7 +210,7 @@ const TrackerApp: React.FC = () => {
             />
             <div className="container mx-auto max-w-screen-2xl p-4 md:p-6">
                  <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_320px] gap-6">
-                    <LeftSidebar />
+                    <LeftSidebar activeView={activeView} setActiveView={setActiveView} />
 
                     {/* Main Content */}
                     <main>
@@ -203,7 +235,9 @@ const TrackerApp: React.FC = () => {
                                             key={topic.title}
                                             topic={topic}
                                             solvedProblems={solvedProblems}
+                                            favoriteProblems={favoriteProblems}
                                             onToggleProblem={handleToggleProblem}
+                                            onToggleFavorite={handleToggleFavorite}
                                             onEditNote={setEditingProblem}
                                             initiallyOpen={isInitiallyOpen}
                                             animationDelay={`${index * 50}ms`}
@@ -213,7 +247,9 @@ const TrackerApp: React.FC = () => {
                             ) : (
                                 !allProblemsSolved && (
                                     <div className="text-center py-10 animate-fade-in-up">
-                                        <p className="text-text-secondary">No problems found for "{searchQuery}"</p>
+                                        <p className="text-text-secondary">
+                                            {activeView === 'favorites' ? 'You have no favorite problems yet.' : `No problems found for "${searchQuery}"`}
+                                        </p>
                                     </div>
                                 )
                             )}
@@ -223,16 +259,18 @@ const TrackerApp: React.FC = () => {
                     <RightSidebar 
                         topics={problemSheet}
                         solvedProblems={solvedProblems}
-                        onSelectProblem={handleSelectProblemFromDashboard}
+                        onSelectProblem={handleSelectProblem}
                     />
                 </div>
             </div>
             <NoteModal 
                 problem={editingProblem}
+                allProblems={problemSheet.flatMap(t => t.problems)}
                 note={editingProblem ? notes.get(editingProblem.id) : undefined}
                 isOpen={!!editingProblem}
                 onClose={() => setEditingProblem(null)}
                 onSave={handleNoteChange}
+                onSelectProblem={handleSelectProblemFromModal}
             />
         </div>
     );

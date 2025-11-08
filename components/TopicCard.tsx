@@ -5,13 +5,15 @@ import ProblemRow from './ProblemRow';
 interface TopicCardProps {
     topic: Topic;
     solvedProblems: Set<number>;
+    favoriteProblems: Set<number>;
     onToggleProblem: (id: number) => void;
+    onToggleFavorite: (id: number) => void;
     onEditNote: (problem: Problem) => void;
     initiallyOpen: boolean;
     animationDelay: string;
 }
 
-const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onToggleProblem, onEditNote, initiallyOpen, animationDelay }) => {
+const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, favoriteProblems, onToggleProblem, onToggleFavorite, onEditNote, initiallyOpen, animationDelay }) => {
     const detailsRef = useRef<HTMLDetailsElement>(null);
     
     useEffect(() => {
@@ -50,7 +52,9 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, solvedProblems, onTogglePr
                             key={problem.id}
                             problem={problem}
                             isSolved={solvedProblems.has(problem.id)}
+                            isFavorite={favoriteProblems.has(problem.id)}
                             onToggle={onToggleProblem}
+                            onToggleFavorite={onToggleFavorite}
                             onEditNote={onEditNote}
                         />
                     ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Topic, Problem } from '../types';
-import Dashboard from './Dashboard';
+import StudyBuddy from './StudyBuddy';
 import OverallProgress from './OverallProgress';
 
 interface RightSidebarProps {
@@ -16,7 +16,11 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ topics, solvedProblems, onS
         <aside className="hidden lg:block">
             <div className="sticky top-20 space-y-6">
                 <OverallProgress allProblems={allProblems} solvedProblems={solvedProblems} />
-                <Dashboard topics={topics} solvedProblems={solvedProblems} onSelectProblem={onSelectProblem} />
+                <StudyBuddy 
+                    allProblems={allProblems}
+                    solvedProblems={solvedProblems}
+                    onSelectProblem={onSelectProblem}
+                />
             </div>
         </aside>
     );

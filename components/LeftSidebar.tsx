@@ -1,5 +1,12 @@
 import React from 'react';
 
+type ActiveView = 'library' | 'favorites';
+
+interface LeftSidebarProps {
+    activeView: ActiveView;
+    setActiveView: (view: ActiveView) => void;
+}
+
 const LibraryIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
       <path strokeLinecap="round" strokeLinejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
@@ -18,21 +25,30 @@ const FavoriteIcon = () => (
     </svg>
 );
 
-
-const NavItem: React.FC<{ icon: React.ReactNode; label: string; active?: boolean }> = ({ icon, label, active }) => (
-    <button className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active ? 'bg-card-secondary text-text-main' : 'text-text-secondary hover:bg-card-secondary/70 hover:text-text-main'}`}>
+const NavItem: React.FC<{ icon: React.ReactNode; label: string; active?: boolean; disabled?: boolean; onClick?: () => void }> = ({ icon, label, active, disabled, onClick }) => (
+    <button 
+        onClick={onClick}
+        disabled={disabled}
+        className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            active 
+                ? 'bg-card-secondary text-text-main' 
+                : disabled
+                ? 'text-text-secondary/50 cursor-not-allowed'
+                : 'text-text-secondary hover:bg-card-secondary/70 hover:text-text-main'
+        }`}
+    >
         {icon}
         <span>{label}</span>
     </button>
 );
 
-const LeftSidebar: React.FC = () => {
+const LeftSidebar: React.FC<LeftSidebarProps> = ({ activeView, setActiveView }) => {
     return (
         <aside className="hidden lg:block">
             <div className="sticky top-20 space-y-1">
-                <NavItem icon={<LibraryIcon />} label="Library" active />
-                <NavItem icon={<StudyPlanIcon />} label="Study Plan" />
-                <NavItem icon={<FavoriteIcon />} label="Favorites" />
+                <NavItem icon={<LibraryIcon />} label="Library" active={activeView === 'library'} onClick={() => setActiveView('library')} />
+                <NavItem icon={<FavoriteIcon />} label="Favorites" active={activeView === 'favorites'} onClick={() => setActiveView('favorites')} />
+                <NavItem icon={<StudyPlanIcon />} label="Study Plan" disabled />
             </div>
         </aside>
     );

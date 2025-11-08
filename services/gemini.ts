@@ -1,4 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
+import type { Problem } from '../types';
 
 const getAIHint = async (problemTitle: string, userNotes: string): Promise<string> => {
     try {
@@ -32,4 +33,117 @@ const getAIHint = async (problemTitle: string, userNotes: string): Promise<strin
     }
 };
 
-export { getAIHint };
+const getAIProblemSuggestion = async (allProblems: Problem[], solvedProblemIds: Set<number>): Promise<{ problem: Problem, reasoning: string }> => {
+    const unsolvedProblems = allProblems.filter(p => !solvedProblemIds.has(p.id));
+
+    if (unsolvedProblems.length === 0) {
+        throw new Error("All problems have been solved!");
+    }
+    
+    // To keep the prompt small, let's just send problem titles and IDs
+    const unsolvedProblemData = unsolvedProblems.map(p => ({ id: p.id, title: p.title, difficulty: p.difficulty }));
+    const solvedProblemData = allProblems
+        .filter(p => solvedProblemIds.has(p.id))
+        .map(p => ({ id: p.id, title: p.title, difficulty: p.difficulty }));
+
+    try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+        const prompt = `
+            You are an expert DSA tutor. A user needs a recommendation for the next problem to solve.
+            
+            Here's a list of problems they have already solved:
+            ${JSON.stringify(solvedProblemData.slice(0, 50))} 
+            
+            Here are the problems they have NOT solved yet:
+            ${JSON.stringify(unsolvedProblemData.slice(0, 100))}
+
+            Based on what they've solved, identify a topic or difficulty level they should focus on. 
+            Then, pick ONE single problem from the unsolved list that would be a good challenge for them.
+            Provide a brief, encouraging reason for your choice.
+        `;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        problemId: { type: Type.NUMBER, description: "The ID of the suggested problem." },
+                        reasoning: { type: Type.STRING, description: "A short, encouraging reason for suggesting this problem." }
+                    },
+                    required: ["problemId", "reasoning"],
+                }
+            }
+        });
+        
+        const jsonResponse = JSON.parse(response.text);
+        const suggestedProblem = allProblems.find(p => p.id === jsonResponse.problemId);
+
+        if (!suggestedProblem) {
+            // Fallback if the model hallucinates an ID
+            return { problem: unsolvedProblems[0], reasoning: "Here's a great problem to get started with." };
+        }
+        
+        return {
+            problem: suggestedProblem,
+            reasoning: jsonResponse.reasoning,
+        };
+
+    } catch (error) {
+        console.error("Error fetching AI suggestion:", error);
+        // Fallback to a random problem on error
+        const randomProblem = unsolvedProblems[Math.floor(Math.random() * unsolvedProblems.length)];
+        return {
+            problem: randomProblem,
+            reasoning: "The AI is thinking... In the meantime, why not try this interesting problem?"
+        };
+    }
+};
+
+const getRelatedProblems = async (currentProblem: Problem, allProblems: Problem[]): Promise<number[]> => {
+     try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const otherProblems = allProblems.filter(p => p.id !== currentProblem.id).map(p => ({id: p.id, title: p.title}));
+
+        const prompt = `
+            A user is currently viewing the problem: "${currentProblem.title}".
+            From the following list of other problems, find 2-3 that are conceptually similar or use the same core algorithm or data structure.
+            
+            List of available problems:
+            ${JSON.stringify(otherProblems.slice(0,150))}
+        `;
+        
+         const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        relatedProblemIds: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.NUMBER
+                            }
+                        }
+                    },
+                    required: ["relatedProblemIds"],
+                }
+            }
+        });
+
+        const jsonResponse = JSON.parse(response.text);
+        return jsonResponse.relatedProblemIds || [];
+
+    } catch (error) {
+        console.error("Error fetching related problems:", error);
+        throw error;
+    }
+}
+
+
+export { getAIHint, getAIProblemSuggestion, getRelatedProblems };
