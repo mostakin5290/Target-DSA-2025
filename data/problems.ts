@@ -1,370 +1,243 @@
 import type { Topic } from '../types';
 
-export const sdeSheet: Topic[] = [
-    {
-        title: "Arrays",
-        problems: [
-            { id: 1, title: "Set Matrix Zeroes", url: "https://leetcode.com/problems/set-matrix-zeroes/", difficulty: "Medium" },
-            { id: 2, title: "Pascal's Triangle", url: "https://leetcode.com/problems/pascals-triangle/", difficulty: "Easy" },
-            { id: 3, title: "Next Permutation", url: "https://leetcode.com/problems/next-permutation/", difficulty: "Medium" },
-            { id: 4, title: "Kadane’s Algorithm", url: "https://leetcode.com/problems/maximum-subarray/", difficulty: "Easy" },
-            { id: 5, title: "Sort an array of 0’s 1’s 2’s", url: "https://leetcode.com/problems/sort-colors/", difficulty: "Medium" },
-            { id: 6, title: "Stock buy and Sell", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", difficulty: "Easy" },
-        ],
-    },
-    {
-        title: "Arrays Part-II",
-        problems: [
-            { id: 7, title: "Rotate Matrix", url: "https://leetcode.com/problems/rotate-image/", difficulty: "Medium" },
-            { id: 8, title: "Merge Overlapping Subintervals", url: "https://leetcode.com/problems/merge-intervals/", difficulty: "Medium" },
-            { id: 9, title: "Merge two sorted Arrays without extra space", url: "https://leetcode.com/problems/merge-sorted-array/", difficulty: "Easy" },
-            { id: 10, title: "Find the duplicate in an array of N+1 integers", url: "https://leetcode.com/problems/find-the-duplicate-number/", difficulty: "Medium" },
-            { id: 11, title: "Repeat and Missing Number", url: "https://www.interviewbit.com/problems/repeat-and-missing-number-array/", difficulty: "Medium" },
-            { id: 12, title: "Inversion of Array (Pre-req: Merge Sort)", url: "https://www.codingninjas.com/codestudio/problems/count-inversions_615", difficulty: "Hard" },
-        ],
-    },
-    {
-        title: "Arrays Part-III",
-        problems: [
-            { id: 13, title: "Search in a 2d Matrix", url: "https://leetcode.com/problems/search-a-2d-matrix/", difficulty: "Medium" },
-            { id: 14, title: "Pow(X,n)", url: "https://leetcode.com/problems/powx-n/", difficulty: "Medium" },
-            { id: 15, title: "Majority Element (>N/2 times)", url: "https://leetcode.com/problems/majority-element/", difficulty: "Easy" },
-            { id: 16, title: "Majority Element (>N/3 times)", url: "https://leetcode.com/problems/majority-element-ii/", difficulty: "Medium" },
-            { id: 17, title: "Grid Unique Paths", url: "https://leetcode.com/problems/unique-paths/", difficulty: "Medium" },
-            { id: 18, title: "Reverse Pairs (Hard)", url: "https://leetcode.com/problems/reverse-pairs/", difficulty: "Hard" },
-        ],
-    },
-    {
-        title: "Arrays Part-IV",
-        problems: [
-            { id: 19, title: "2-Sum-Problem", url: "https://leetcode.com/problems/two-sum/", difficulty: "Easy" },
-            { id: 20, title: "4-Sum-Problem", url: "https://leetcode.com/problems/4sum/", difficulty: "Medium" },
-            { id: 21, title: "Longest Consecutive Sequence", url: "https://leetcode.com/problems/longest-consecutive-sequence/", difficulty: "Medium" },
-            { id: 22, title: "Largest Subarray with 0 sum", url: "https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1", difficulty: "Medium" },
-            { id: 23, title: "Count number of subarrays with given XOR", url: "https://www.interviewbit.com/problems/subarray-with-given-xor/", difficulty: "Hard" },
-            { id: 24, title: "Longest Substring without repeat", url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", difficulty: "Medium" },
-        ],
-    },
-    {
-        title: "Linked List",
-        problems: [
-            { id: 25, title: "Reverse a LinkedList", url: "https://leetcode.com/problems/reverse-linked-list/", difficulty: "Easy" },
-            { id: 26, title: "Find the middle of LinkedList", url: "https://leetcode.com/problems/middle-of-the-linked-list/", difficulty: "Easy" },
-            { id: 27, title: "Merge two sorted Linked List", url: "https://leetcode.com/problems/merge-two-sorted-lists/", difficulty: "Easy" },
-            { id: 28, title: "Remove N-th node from back of LinkedList", url: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", difficulty: "Medium" },
-            { id: 29, title: "Add two numbers as LinkedList", url: "https://leetcode.com/problems/add-two-numbers/", difficulty: "Medium" },
-            { id: 30, title: "Delete a given Node when a node is given", url: "https://leetcode.com/problems/delete-node-in-a-linked-list/", difficulty: "Easy" },
-        ],
-    },
-    {
-        title: "Linked List Part-II",
-        problems: [
-            { id: 31, title: "Find intersection point of Y LinkedList", url: "https://leetcode.com/problems/intersection-of-two-linked-lists/", difficulty: "Easy" },
-            { id: 32, title: "Detect a cycle in Linked List", url: "https://leetcode.com/problems/linked-list-cycle/", difficulty: "Easy" },
-            { id: 33, title: "Reverse a LinkedList in groups of size k.", url: "https://leetcode.com/problems/reverse-nodes-in-k-group/", difficulty: "Hard" },
-            { id: 34, title: "Check if a LinkedList is palindrome or not.", url: "https://leetcode.com/problems/palindrome-linked-list/", difficulty: "Easy" },
-            { id: 35, title: "Find the starting point of the Loop of LinkedList", url: "https://leetcode.com/problems/linked-list-cycle-ii/", difficulty: "Medium" },
-            { id: 36, title: "Flattening of a LinkedList", url: "https://practice.geeksforgeeks.org/problems/flattening-a-linked-list/1", difficulty: "Hard" },
-        ],
-    },
-    {
-        title: "Linked List and Arrays",
-        problems: [
-            { id: 37, title: "Rotate a LinkedList", url: "https://leetcode.com/problems/rotate-list/", difficulty: "Medium" },
-            { id: 38, title: "Clone a Linked List with random and next pointer", url: "https://leetcode.com/problems/copy-list-with-random-pointer/", difficulty: "Medium" },
-            { id: 39, title: "3 sum", url: "https://leetcode.com/problems/3sum/", difficulty: "Medium" },
-            { id: 40, title: "Trapping rainwater", url: "https://leetcode.com/problems/trapping-rain-water/", difficulty: "Hard" },
-            { id: 41, title: "Remove Duplicate from Sorted array", url: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/", difficulty: "Easy" },
-            { id: 42, title: "Max consecutive ones", url: "https://leetcode.com/problems/max-consecutive-ones/", difficulty: "Easy" },
-        ]
-    },
-    {
-        title: "Greedy Algorithm",
-        problems: [
-            { id: 43, title: "N meetings in one room", url: "https://practice.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1", difficulty: "Easy" },
-            { id: 44, title: "Minimum platforms", url: "https://practice.geeksforgeeks.org/problems/minimum-platforms-1587115620/1", difficulty: "Medium" },
-            { id: 45, title: "Job sequencing Problem", url: "https://practice.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1", difficulty: "Medium" },
-            { id: 46, title: "Fractional Knapsack", url: "https://practice.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1", difficulty: "Medium" },
-            { id: 47, title: "Minimum number of coins", url: "https://www.geeksforgeeks.org/greedy-algorithm-to-find-minimum-number-of-coins/", difficulty: "Medium" },
-            { id: 48, title: "Activity Selection", url: "https://practice.geeksforgeeks.org/problems/activity-selection-1587115620/1", difficulty: "Easy" },
-        ]
-    },
-    {
-        title: "Recursion",
-        problems: [
-            { id: 49, title: "Subset Sums", url: "https://practice.geeksforgeeks.org/problems/subset-sums2234/1", difficulty: "Medium" },
-            { id: 50, title: "Subset-II", url: "https://leetcode.com/problems/subsets-ii/", difficulty: "Medium" },
-            { id: 51, title: "Combination sum-1", url: "https://leetcode.com/problems/combination-sum/", difficulty: "Medium" },
-            { id: 52, title: "Combination sum-2", url: "https://leetcode.com/problems/combination-sum-ii/", difficulty: "Medium" },
-            { id: 53, title: "Palindrome Partitioning", url: "https://leetcode.com/problems/palindrome-partitioning/", difficulty: "Medium" },
-            { id: 54, title: "K-th permutation Sequence", url: "https://leetcode.com/problems/permutation-sequence/", difficulty: "Hard" },
-            { id: 170, title: "Power Set", url: "https://leetcode.com/problems/subsets/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Recursion and Backtracking",
-        problems: [
-            { id: 55, title: "Print all permutations of a string/array", url: "https://leetcode.com/problems/permutations/", difficulty: "Medium" },
-            { id: 56, title: "N-Queens", url: "https://leetcode.com/problems/n-queens/", difficulty: "Hard" },
-            { id: 57, title: "Sudoku Solver", url: "https://leetcode.com/problems/sudoku-solver/", difficulty: "Hard" },
-            { id: 58, title: "M-Coloring Problem", url: "https://practice.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1", difficulty: "Medium" },
-            { id: 59, title: "Rat in a Maze", url: "https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1", difficulty: "Medium" },
-            { id: 60, title: "Word Break", url: "https://leetcode.com/problems/word-break-ii/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Binary Search",
-        problems: [
-            { id: 61, title: "The N-th root of an integer", url: "https://www.geeksforgeeks.org/n-th-root-of-a-number/", difficulty: "Medium" },
-            { id: 62, title: "Matrix Median", url: "https://www.interviewbit.com/problems/matrix-median/", difficulty: "Hard" },
-            { id: 63, title: "Single Element in a Sorted Array", url: "https://leetcode.com/problems/single-element-in-a-sorted-array/", difficulty: "Medium" },
-            { id: 64, title: "Search in Rotated Sorted Array", url: "https://leetcode.com/problems/search-in-rotated-sorted-array/", difficulty: "Medium" },
-            { id: 65, title: "Median of 2 sorted arrays", url: "https://leetcode.com/problems/median-of-two-sorted-arrays/", difficulty: "Hard" },
-            { id: 66, title: "K-th element of two sorted arrays", url: "https://practice.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array/1", difficulty: "Hard" },
-            { id: 67, title: "Allocate Minimum Number of Pages", url: "https://practice.geeksforgeeks.org/problems/allocate-minimum-number-of-pages/0", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Heaps",
-        problems: [
-            { id: 68, title: "Kth Largest Element", url: "https://leetcode.com/problems/kth-largest-element-in-an-array/", difficulty: "Medium" },
-            { id: 69, title: "Maximum Sum Combination", url: "https://www.interviewbit.com/problems/maximum-sum-combinations/", difficulty: "Hard" },
-            { id: 70, title: "Find Median from Data Stream", url: "https://leetcode.com/problems/find-median-from-data-stream/", difficulty: "Hard" },
-            { id: 71, title: "Merge K sorted arrays", url: "https://practice.geeksforgeeks.org/problems/merge-k-sorted-arrays/1", difficulty: "Medium" },
-            { id: 72, title: "K most frequent elements", url: "https://leetcode.com/problems/top-k-frequent-elements/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Stack and Queue",
-        problems: [
-            { id: 73, title: "Implement Stack using Queue", url: "https://leetcode.com/problems/implement-stack-using-queues/", difficulty: "Easy" },
-            { id: 74, title: "Implement Queue using Stack", url: "https://leetcode.com/problems/implement-queue-using-stacks/", difficulty: "Easy" },
-            { id: 75, title: "Check for balanced parentheses", url: "https://leetcode.com/problems/valid-parentheses/", difficulty: "Easy" },
-            { id: 76, title: "Next Greater Element", url: "https://leetcode.com/problems/next-greater-element-i/", difficulty: "Easy" },
-        ]
-    },
-    {
-        title: "Stack and Queue Part-II",
-        problems: [
-            { id: 77, title: "Next Smaller Element", url: "https://www.interviewbit.com/problems/nearest-smaller-element/", difficulty: "Medium" },
-            { id: 78, title: "LRU cache", url: "https://leetcode.com/problems/lru-cache/", difficulty: "Medium" },
-            { id: 79, title: "LFU cache", url: "https://leetcode.com/problems/lfu-cache/", difficulty: "Hard" },
-            { id: 80, title: "Largest rectangle in a histogram", url: "https://leetcode.com/problems/largest-rectangle-in-histogram/", difficulty: "Hard" },
-            { id: 81, title: "Sliding Window maximum", url: "https://leetcode.com/problems/sliding-window-maximum/", difficulty: "Hard" },
-            { id: 82, title: "Implement a Min Stack", url: "https://leetcode.com/problems/min-stack/", difficulty: "Easy" },
-            { id: 83, title: "Rotten Oranges", url: "https://leetcode.com/problems/rotting-oranges/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "String",
-        problems: [
-            { id: 84, title: "Reverse Words in a String", url: "https://leetcode.com/problems/reverse-words-in-a-string/", difficulty: "Medium" },
-            { id: 85, title: "Longest Palindromic Substring", url: "https://leetcode.com/problems/longest-palindromic-substring/", difficulty: "Medium" },
-            { id: 86, title: "Roman to Integer", url: "https://leetcode.com/problems/roman-to-integer/", difficulty: "Easy" },
-            { id: 87, title: "String to Integer (atoi)", url: "https://leetcode.com/problems/string-to-integer-atoi/", difficulty: "Medium" },
-            { id: 88, title: "Longest Common Prefix", url: "https://leetcode.com/problems/longest-common-prefix/", difficulty: "Easy" },
-            { id: 89, title: "Rabin Karp Algorithm", url: "https://leetcode.com/problems/repeated-string-match/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "String Part-II",
-        problems: [
-            { id: 90, title: "Z-Function", url: "https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/", difficulty: "Hard" },
-            { id: 91, title: "KMP Algorithm", url: "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/", difficulty: "Hard" },
-            { id: 92, title: "Minimum Insertions to Make a String Palindrome", url: "https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/", difficulty: "Hard" },
-            { id: 93, title: "Valid Anagram", url: "https://leetcode.com/problems/valid-anagram/", difficulty: "Easy" },
-            { id: 94, title: "Count and Say", url: "https://leetcode.com/problems/count-and-say/", difficulty: "Medium" },
-            { id: 95, title: "Compare Version Numbers", url: "https://leetcode.com/problems/compare-version-numbers/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Binary Tree",
-        problems: [
-            { id: 96, title: "Inorder Traversal", url: "https://leetcode.com/problems/binary-tree-inorder-traversal/", difficulty: "Easy" },
-            { id: 97, title: "Preorder Traversal", url: "https://leetcode.com/problems/binary-tree-preorder-traversal/", difficulty: "Easy" },
-            { id: 98, title: "Postorder Traversal", url: "https://leetcode.com/problems/binary-tree-postorder-traversal/", difficulty: "Easy" },
-            { id: 99, title: "Left View of Binary Tree", url: "https://practice.geeksforgeeks.org/problems/left-view-of-binary-tree/1", difficulty: "Medium" },
-            { id: 100, title: "Bottom View of Binary Tree", url: "https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1", difficulty: "Medium" },
-            { id: 101, title: "Top View of Binary Tree", url: "https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1", difficulty: "Medium" },
-            { id: 102, title: "All Traversals in One Go", url: "https://www.geeksforgeeks.org/preorder-inorder-postorder-traversals-in-one-traversal/", difficulty: "Medium" },
-            { id: 103, title: "Vertical Order Traversal", url: "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Binary Tree part-II",
-        problems: [
-            { id: 104, title: "Level Order Traversal", url: "https://leetcode.com/problems/binary-tree-level-order-traversal/", difficulty: "Medium" },
-            { id: 105, title: "Maximum Depth of Binary Tree", url: "https://leetcode.com/problems/maximum-depth-of-binary-tree/", difficulty: "Easy" },
-            { id: 106, title: "Diameter of a Binary Tree", url: "https://leetcode.com/problems/diameter-of-binary-tree/", difficulty: "Easy" },
-            { id: 107, title: "Balanced Binary Tree", url: "https://leetcode.com/problems/balanced-binary-tree/", difficulty: "Easy" },
-            { id: 108, title: "Lowest Common Ancestor", url: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", difficulty: "Medium" },
-            { id: 109, title: "Same Tree", url: "https://leetcode.com/problems/same-tree/", difficulty: "Easy" },
-            { id: 110, title: "Zig-Zag Traversal", url: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", difficulty: "Medium" },
-            { id: 111, title: "Boundary Traversal", url: "https://practice.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1", difficulty: "Hard" },
-            { id: 112, title: "Binary Tree Maximum Path Sum", url: "https://leetcode.com/problems/binary-tree-maximum-path-sum/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Binary Tree part-III",
-        problems: [
-            { id: 113, title: "Construct Tree from Inorder & Preorder", url: "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", difficulty: "Medium" },
-            { id: 114, title: "Construct Tree from Inorder & Postorder", url: "https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/", difficulty: "Medium" },
-            { id: 115, title: "Symmetric Binary Tree", url: "https://leetcode.com/problems/symmetric-tree/", difficulty: "Easy" },
-            { id: 116, title: "Flatten Binary Tree to Linked List", url: "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/", difficulty: "Medium" },
-            { id: 117, title: "Nodes at Distance K", url: "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/", difficulty: "Medium" },
-            { id: 118, title: "Minimum time to burn tree", url: "https://www.interviewbit.com/problems/burn-a-tree/", difficulty: "Hard" },
-            { id: 119, title: "Count Complete Tree Nodes", url: "https://leetcode.com/problems/count-complete-tree-nodes/", difficulty: "Medium" },
-            { id: 120, title: "Unique Binary Search Trees", url: "https://leetcode.com/problems/unique-binary-search-trees/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Binary Search Tree",
-        problems: [
-            { id: 121, title: "Populating Next Right Pointers", url: "https://leetcode.com/problems/populating-next-right-pointers-in-each-node/", difficulty: "Medium" },
-            { id: 122, title: "Search in a BST", url: "https://leetcode.com/problems/search-in-a-binary-search-tree/", difficulty: "Easy" },
-            { id: 123, title: "Construct BST from Preorder Traversal", url: "https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/", difficulty: "Medium" },
-            { id: 124, title: "Validate BST", url: "https://leetcode.com/problems/validate-binary-search-tree/", difficulty: "Medium" },
-            { id: 125, title: "LCA of a BST", url: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/", difficulty: "Easy" },
-            { id: 126, title: "Inorder Successor/Predecessor in BST", url: "https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Binary Search Tree Part-II",
-        problems: [
-            { id: 127, title: "Two Sum IV - Input is a BST", url: "https://leetcode.com/problems/two-sum-iv-input-is-a-bst/", difficulty: "Easy" },
-            { id: 128, title: "Kth Smallest Element in a BST", url: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", difficulty: "Medium" },
-            { id: 129, title: "Kth largest element in BST", url: "https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1", difficulty: "Medium" },
-            { id: 130, title: "Find median of BST", url: "https://www.geeksforgeeks.org/find-median-of-bst-in-o1-space/", difficulty: "Hard" },
-            { id: 131, title: "Range Sum of BST", url: "https://leetcode.com/problems/range-sum-of-bst/", difficulty: "Easy" },
-            { id: 132, title: "Merge two BSTs", url: "https://www.geeksforgeeks.org/merge-two-balanced-binary-search-trees/", difficulty: "Medium" },
-            { id: 133, title: "Serialize and Deserialize a Binary Tree", url: "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Binary Trees (Misc)",
-        problems: [
-            { id: 134, title: "Binary Tree to Doubly Linked List", url: "https://practice.geeksforgeeks.org/problems/binary-tree-to-dll/1", difficulty: "Medium" },
-            { id: 135, title: "Find the largest BST in a binary tree", url: "https://leetcode.com/problems/largest-bst-subtree/", difficulty: "Medium" },
-            { id: 136, title: "Verify Preorder Serialization of a Binary Tree", url: "https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree/", difficulty: "Medium" },
-            { id: 137, title: "Morris Inorder Traversal", url: "https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/", difficulty: "Hard" },
-            { id: 138, title: "Morris Preorder Traversal", url: "https://www.geeksforgeeks.org/morris-traversal-for-preorder/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Graph",
-        problems: [
-            { id: 139, title: "Clone a graph", url: "https://leetcode.com/problems/clone-graph/", difficulty: "Medium" },
-            { id: 140, title: "DFS", url: "https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1", difficulty: "Easy" },
-            { id: 141, title: "BFS", url: "https://practice.geeksforgeeks.org/problems/bfs-traversal-of-graph/1", difficulty: "Easy" },
-            { id: 142, title: "Detect cycle in undirected graph", url: "https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1", difficulty: "Medium" },
-            { id: 143, title: "Detect cycle in directed graph", url: "https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1", difficulty: "Medium" },
-            { id: 144, title: "Topological Sort", url: "https://practice.geeksforgeeks.org/problems/topological-sort/1", difficulty: "Medium" },
-            { id: 145, title: "Number of islands", url: "https://leetcode.com/problems/number-of-islands/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Graph Part-II",
-        problems: [
-            { id: 146, title: "Bipartite Check", url: "https://leetcode.com/problems/is-graph-bipartite/", difficulty: "Medium" },
-            { id: 147, title: "Strongly Connected Components (Kosaraju)", url: "https://practice.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1", difficulty: "Hard" },
-            { id: 148, title: "Dijkstra’s Algorithm", url: "https://leetcode.com/problems/network-delay-time/", difficulty: "Medium" },
-            { id: 149, title: "Bellman-Ford Algorithm", url: "https://practice.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/0", difficulty: "Medium" },
-            { id: 150, title: "Floyd Warshall Algorithm", url: "https://practice.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1", difficulty: "Medium" },
-            { id: 151, title: "Prim’s Algorithm (MST)", url: "https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1", difficulty: "Medium" },
-            { id: 152, title: "Kruskal’s algorithm (MST)", url: "https://leetcode.com/problems/min-cost-to-connect-all-points/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Dynamic Programming",
-        problems: [
-            { id: 153, title: "Max Product Subarray", url: "https://leetcode.com/problems/maximum-product-subarray/", difficulty: "Medium" },
-            { id: 154, title: "Longest Increasing Subsequence", url: "https://leetcode.com/problems/longest-increasing-subsequence/", difficulty: "Medium" },
-            { id: 155, title: "Longest Common Subsequence", url: "https://leetcode.com/problems/longest-common-subsequence/", difficulty: "Medium" },
-            { id: 156, title: "0-1 Knapsack", url: "https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem/0", difficulty: "Medium" },
-            { id: 157, title: "Edit Distance", url: "https://leetcode.com/problems/edit-distance/", difficulty: "Hard" },
-            { id: 158, title: "Maximum sum increasing subsequence", url: "https://practice.geeksforgeeks.org/problems/maximum-sum-increasing-subsequence4749/1", difficulty: "Medium" },
-            { id: 159, title: "Matrix Chain Multiplication", url: "https://practice.geeksforgeeks.org/problems/matrix-chain-multiplication0012/1", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Dynamic Programming Part-II",
-        problems: [
-            { id: 160, title: "Minimum Path Sum", url: "https://leetcode.com/problems/minimum-path-sum/", difficulty: "Medium" },
-            { id: 161, title: "Coin Change", url: "https://leetcode.com/problems/coin-change/", difficulty: "Medium" },
-            { id: 162, title: "Partition Equal Subset Sum", url: "https://leetcode.com/problems/partition-equal-subset-sum/", difficulty: "Medium" },
-            { id: 163, title: "Rod Cutting", url: "https://practice.geeksforgeeks.org/problems/rod-cutting0840/1", difficulty: "Medium" },
-            { id: 164, title: "Egg Dropping Puzzle", url: "https://practice.geeksforgeeks.org/problems/egg-dropping-puzzle-1587115620/1", difficulty: "Hard" },
-            { id: 165, title: "Word Break", url: "https://leetcode.com/problems/word-break/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Trie",
-        problems: [
-            { id: 166, title: "Implement Trie (Prefix Tree)", url: "https://leetcode.com/problems/implement-trie-prefix-tree/", difficulty: "Medium" },
-            { id: 167, title: "Implement Trie – 2 (count & erase)", url: "https://www.codingninjas.com/codestudio/problems/implement-trie_631356", difficulty: "Hard" },
-            { id: 168, title: "Longest word with all prefixes", url: "https://leetcode.com/problems/longest-word-in-dictionary/", difficulty: "Medium" },
-            { id: 169, title: "Number of distinct substrings", url: "https://practice.geeksforgeeks.org/problems/count-of-distinct-substrings/1", difficulty: "Hard" },
-            { id: 171, title: "Maximum XOR of two numbers in an array", url: "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/", difficulty: "Medium" },
-            { id: 172, title: "Maximum XOR with an element from array", url: "https://leetcode.com/problems/maximum-xor-with-an-element-from-array/", difficulty: "Hard" },
-            { id: 173, title: "Word Search II", url: "https://leetcode.com/problems/word-search-ii/", difficulty: "Hard" },
-        ]
-    }
-];
+// Helper function to extract title and difficulty.
+// If no difficulty is specified, it will be categorized as 'Medium'.
+const parseTitleAndDifficulty = (rawTitle: string): { title: string; difficulty: 'Easy' | 'Medium' | 'Hard' } => {
+  const match = rawTitle.match(/\((easy|medium|hard)\)/i);
+  if (match) {
+    const title = rawTitle.replace(/\((easy|medium|hard)\)/i, '').trim();
+    const difficulty = (match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase()) as 'Easy' | 'Medium' | 'Hard';
+    return { title, difficulty };
+  }
+  return { title: rawTitle.trim(), difficulty: 'Medium' };
+};
 
-export const striverSdeSheet: Topic[] = [
-    {
-        title: "Day 1: Arrays",
-        problems: [
-            { id: 501, title: "Sort an array of 0s, 1s and 2s", url: "https://leetcode.com/problems/sort-colors/", difficulty: "Medium" },
-            { id: 502, title: "Find the duplicate in an array of N+1 integers", url: "https://leetcode.com/problems/find-the-duplicate-number/", difficulty: "Medium" },
-            { id: 503, title: "Repeat and Missing Number", url: "https://www.interviewbit.com/problems/repeat-and-missing-number-array/", difficulty: "Medium" },
-            { id: 504, title: "Merge two sorted arrays without extra space", url: "https://leetcode.com/problems/merge-sorted-array/", difficulty: "Easy" },
-            { id: 505, title: "Kadane’s Algorithm", url: "https://leetcode.com/problems/maximum-subarray/", difficulty: "Easy" },
-            { id: 506, title: "Merge Overlapping Subintervals", url: "https://leetcode.com/problems/merge-intervals/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Day 2: Arrays Part-II",
-        problems: [
-            { id: 507, title: "Set Matrix Zeroes", url: "https://leetcode.com/problems/set-matrix-zeroes/", difficulty: "Medium" },
-            { id: 508, title: "Pascal's Triangle", url: "https://leetcode.com/problems/pascals-triangle/", difficulty: "Easy" },
-            { id: 509, title: "Next Permutation", url: "https://leetcode.com/problems/next-permutation/", difficulty: "Medium" },
-            { id: 510, title: "Inversion of Array", url: "https://www.codingninjas.com/codestudio/problems/count-inversions_615", difficulty: "Hard" },
-            { id: 511, title: "Best Time to Buy and Sell Stock", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", difficulty: "Easy" },
-            { id: 512, title: "Rotate Matrix", url: "https://leetcode.com/problems/rotate-image/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Day 3: Arrays Part-III",
-        problems: [
-            { id: 513, title: "Search in a 2D Matrix", url: "https://leetcode.com/problems/search-a-2d-matrix/", difficulty: "Medium" },
-            { id: 514, title: "Pow(X, n)", url: "https://leetcode.com/problems/powx-n/", difficulty: "Medium" },
-            { id: 515, title: "Majority Element (>N/2 times)", url: "https://leetcode.com/problems/majority-element/", difficulty: "Easy" },
-            { id: 516, title: "Majority Element (>N/3 times)", url: "https://leetcode.com/problems/majority-element-ii/", difficulty: "Medium" },
-            { id: 517, title: "Grid Unique Paths", url: "https://leetcode.com/problems/unique-paths/", difficulty: "Medium" },
-            { id: 518, title: "Reverse Pairs", url: "https://leetcode.com/problems/reverse-pairs/", difficulty: "Hard" },
-        ]
-    },
-    {
-        title: "Day 4: Arrays Part-IV",
-        problems: [
-            { id: 519, title: "2 Sum Problem", url: "https://leetcode.com/problems/two-sum/", difficulty: "Easy" },
-            { id: 520, title: "4 Sum Problem", url: "https://leetcode.com/problems/4sum/", difficulty: "Medium" },
-            { id: 521, title: "Longest Consecutive Sequence", url: "https://leetcode.com/problems/longest-consecutive-sequence/", difficulty: "Medium" },
-            { id: 522, title: "Largest subarray with 0 sum", url: "https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1", difficulty: "Medium" },
-            { id: 523, title: "Count number of subarrays with given XOR", url: "https://www.interviewbit.com/problems/subarray-with-given-xor/", difficulty: "Hard" },
-            { id: 524, title: "Longest Substring without repeat", url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", difficulty: "Medium" },
-        ]
-    },
-    {
-        title: "Day 5: Linked List",
-        problems: [
-            { id: 525, title: "Reverse a LinkedList", url: "https://leetcode.com/problems/reverse-linked-list/", difficulty: "Easy" },
-            { id: 526, title: "Find middle of LinkedList", url: "https://leetcode.com/problems/middle-of-the-linked-list/", difficulty: "Easy" },
-            { id: 527, title: "Merge two sorted Linked List", url: "https://leetcode.com/problems/merge-two-sorted-lists/", difficulty: "Easy" },
-            { id: 528, title: "Remove N-th node from back of LinkedList", url: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", difficulty: "Medium" },
-            { id: 529, title: "Add two numbers as LinkedList", url: "https://leetcode.com/problems/add-two-numbers/", difficulty: "Medium" },
-            { id: 530, title: "Delete a given Node when a node is given", url: "https://leetcode.com/problems/delete-node-in-a-linked-list/", difficulty: "Easy" },
-        ]
-    }
+export const problemSheet: Topic[] = [
+  {
+    title: "1. Pattern: Two Pointers",
+    problems: [
+      { id: 1001, ...parseTitleAndDifficulty("Pair with Target Sum (easy)"), url: "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/" },
+      { id: 1002, ...parseTitleAndDifficulty("Remove Duplicates (easy)"), url: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/" },
+      { id: 1003, ...parseTitleAndDifficulty("Squaring a Sorted Array (easy)"), url: "https://leetcode.com/problems/squares-of-a-sorted-array/" },
+      { id: 1004, ...parseTitleAndDifficulty("Triplet Sum to Zero (medium)"), url: "https://leetcode.com/problems/3sum/" },
+      { id: 1005, ...parseTitleAndDifficulty("Triplet Sum Close to Target (medium)"), url: "https://leetcode.com/problems/3sum-closest/" },
+      { id: 1006, ...parseTitleAndDifficulty("Triplets with Smaller Sum (medium)"), url: "https://www.geeksforgeeks.org/problems/count-triplets-with-sum-smaller-than-x5549/1" },
+      { id: 1007, ...parseTitleAndDifficulty("Subarrays with Product Less than a Target (medium)"), url: "https://leetcode.com/problems/subarray-product-less-than-k/" },
+      { id: 1008, ...parseTitleAndDifficulty("Dutch National Flag Problem (medium)"), url: "https://leetcode.com/problems/sort-colors/description/" },
+      { id: 1009, ...parseTitleAndDifficulty("Quadruple Sum to Target (medium)"), url: "https://leetcode.com/problems/4sum/" },
+      { id: 1010, ...parseTitleAndDifficulty("Comparing Strings containing Backspaces (medium)"), url: "https://leetcode.com/problems/backspace-string-compare/" },
+      { id: 1011, ...parseTitleAndDifficulty("Minimum Window Sort (medium)"), url: "https://leetcode.com/problems/shortest-unsorted-continuous-subarray/" },
+    ]
+  },
+  {
+    title: "2. Pattern: Fast & Slow pointers",
+    problems: [
+      { id: 1012, ...parseTitleAndDifficulty("LinkedList Cycle (easy)"), url: "https://leetcode.com/problems/linked-list-cycle/" },
+      { id: 1013, ...parseTitleAndDifficulty("Start of LinkedList Cycle (medium)"), url: "https://leetcode.com/problems/linked-list-cycle-ii/" },
+      { id: 1014, ...parseTitleAndDifficulty("Happy Number (medium)"), url: "https://leetcode.com/problems/happy-number/" },
+      { id: 1015, ...parseTitleAndDifficulty("Middle of the LinkedList (easy)"), url: "https://leetcode.com/problems/middle-of-the-linked-list/" },
+      { id: 1016, ...parseTitleAndDifficulty("Palindrome LinkedList (medium)"), url: "https://leetcode.com/problems/palindrome-linked-list/" },
+      { id: 1017, ...parseTitleAndDifficulty("Rearrange a LinkedList (medium)"), url: "https://leetcode.com/problems/reorder-list/" },
+      { id: 1018, ...parseTitleAndDifficulty("Cycle in a Circular Array (hard)"), url: "https://leetcode.com/problems/circular-array-loop/" },
+    ]
+  },
+  {
+    title: "3. Pattern: Sliding Window",
+    problems: [
+      { id: 1019, ...parseTitleAndDifficulty("Maximum Sum Subarray of Size K (easy)"), url: "https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1" },
+      { id: 1020, ...parseTitleAndDifficulty("Smallest Subarray with a given sum (easy)"), url: "https://leetcode.com/problems/minimum-size-subarray-sum/" },
+      { id: 1021, ...parseTitleAndDifficulty("Longest Substring with K Distinct Characters (medium)"), url: "https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1" },
+      { id: 1022, ...parseTitleAndDifficulty("Fruits into Baskets (medium)"), url: "https://leetcode.com/problems/fruit-into-baskets/" },
+      { id: 1023, ...parseTitleAndDifficulty("No-repeat Substring (hard)"), url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/" },
+      { id: 1024, ...parseTitleAndDifficulty("Longest Substring with Same Letters after Replacement (hard)"), url: "https://leetcode.com/problems/longest-repeating-character-replacement/" },
+      { id: 1025, ...parseTitleAndDifficulty("Longest Subarray with Ones after Replacement (hard)"), url: "https://leetcode.com/problems/max-consecutive-ones-iii/" },
+      { id: 1026, ...parseTitleAndDifficulty("Minimum size subarray SUM"), url: "https://leetcode.com/problems/minimum-size-subarray-sum/" },
+      { id: 1027, ...parseTitleAndDifficulty("Minimum Size Substring (HARD)"), url: "https://leetcode.com/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150" },
+      { id: 1028, ...parseTitleAndDifficulty("Permutation in a String (hard)"), url: "https://leetcode.com/problems/permutation-in-string/" },
+      { id: 1029, ...parseTitleAndDifficulty("String Anagrams (hard)"), url: "https://leetcode.com/problems/find-all-anagrams-in-a-string/" },
+      { id: 1030, ...parseTitleAndDifficulty("Smallest Window containing Substring (hard)"), url: "https://leetcode.com/problems/minimum-window-substring/" },
+      { id: 1031, ...parseTitleAndDifficulty("Words Concatenation (hard)"), url: "https://leetcode.com/problems/substring-with-concatenation-of-all-words/" },
+    ]
+  },
+  {
+    title: "4. Pattern: Merge Intervals",
+    problems: [
+        { id: 1032, ...parseTitleAndDifficulty("Merge Intervals (medium)"), url: "https://leetcode.com/problems/merge-intervals/" },
+        { id: 1033, ...parseTitleAndDifficulty("Insert Interval (medium)"), url: "https://leetcode.com/problems/insert-interval/" },
+        { id: 1034, ...parseTitleAndDifficulty("Intervals Intersection (medium)"), url: "https://leetcode.com/problems/interval-list-intersections/" },
+        { id: 1035, ...parseTitleAndDifficulty("Conflicting Appointments (medium)"), url: "https://www.geeksforgeeks.org/check-if-any-two-intervals-overlap-among-a-given-set-of-intervals/" },
+        { id: 1036, ...parseTitleAndDifficulty("Minimum Meeting Rooms (hard)"), url: "https://www.lintcode.com/problem/meeting-rooms-ii/" },
+        { id: 1037, ...parseTitleAndDifficulty("Maximum CPU Load (hard)"), url: "https://www.geeksforgeeks.org/maximum-cpu-load-from-the-given-list-of-jobs/" },
+        { id: 1038, ...parseTitleAndDifficulty("Employee Free Time (hard)"), url: "https://leetcode.com/problems/employee-free-time/" },
+    ]
+  },
+  {
+    title: "5. Pattern: Cyclic Sort",
+    problems: [
+        { id: 1039, ...parseTitleAndDifficulty("Cyclic Sort (easy)"), url: "https://www.geeksforgeeks.org/sort-an-array-which-contain-1-to-n-values-in-on-using-cycle-sort/" },
+        { id: 1040, ...parseTitleAndDifficulty("Find the Missing Number (easy)"), url: "https://leetcode.com/problems/missing-number/" },
+        { id: 1041, ...parseTitleAndDifficulty("Find all Missing Numbers (easy)"), url: "https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/" },
+        { id: 1042, ...parseTitleAndDifficulty("Find the Duplicate Number (easy)"), url: "https://leetcode.com/problems/find-the-duplicate-number/" },
+        { id: 1043, ...parseTitleAndDifficulty("Find all Duplicate Numbers (easy)"), url: "https://leetcode.com/problems/find-all-duplicates-in-an-array/" },
+        { id: 1044, ...parseTitleAndDifficulty("Find the Corrupt Pair (easy)"), url: "https://leetcode.com/problems/set-mismatch/" },
+        { id: 1045, ...parseTitleAndDifficulty("Find the Smallest Missing Positive Number (medium)"), url: "https://leetcode.com/problems/first-missing-positive/" },
+        { id: 1046, ...parseTitleAndDifficulty("Find the First K Missing Positive Numbers (hard)"), url: "https://thecodingsimplified.com/find-the-first-k-missing-positive-number/" },
+    ]
+  },
+  {
+    title: "6. Pattern: In-place Reversal of a LinkedList",
+    problems: [
+        { id: 1047, ...parseTitleAndDifficulty("Reverse a LinkedList (easy)"), url: "https://leetcode.com/problems/reverse-linked-list/" },
+        { id: 1048, ...parseTitleAndDifficulty("Reverse a Sub-list (medium)"), url: "https://leetcode.com/problems/reverse-linked-list-ii/" },
+        { id: 1049, ...parseTitleAndDifficulty("Reverse every K-element Sub-list (medium)"), url: "https://leetcode.com/problems/reverse-nodes-in-k-group/" },
+        { id: 1050, ...parseTitleAndDifficulty("Reverse alternating K-element Sub-list (medium)"), url: "https://www.geeksforgeeks.org/reverse-alternate-k-nodes-in-a-singly-linked-list/" },
+        { id: 1051, ...parseTitleAndDifficulty("Rotate a LinkedList (medium)"), url: "https://leetcode.com/problems/rotate-list/" },
+    ]
+  },
+  {
+    title: "8. Pattern: Monotonic Stack",
+    problems: [
+        { id: 1052, ...parseTitleAndDifficulty("Next Greater Element (easy)"), url: "https://leetcode.com/problems/next-greater-element-i/" },
+        { id: 1053, ...parseTitleAndDifficulty("Daily Temperatures (easy)"), url: "https://leetcode.com/problems/daily-temperatures/" },
+        { id: 1054, ...parseTitleAndDifficulty("Remove Nodes From Linked List (easy)"), url: "https://leetcode.com/problems/remove-nodes-from-linked-list/" },
+        { id: 1055, ...parseTitleAndDifficulty("Remove All Adjacent Duplicates In String (easy)"), url: "https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/" },
+        { id: 1056, ...parseTitleAndDifficulty("Remove All Adjacent Duplicates in String II (medium)"), url: "https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/" },
+        { id: 1057, ...parseTitleAndDifficulty("Remove K Digits (hard)"), url: "https://leetcode.com/problems/remove-k-digits/" },
+    ]
+  },
+  {
+    title: "10. Pattern: Tree Breadth First Search",
+    problems: [
+        { id: 1058, ...parseTitleAndDifficulty("Binary Tree Level Order Traversal (easy)"), url: "https://leetcode.com/problems/binary-tree-level-order-traversal/" },
+        { id: 1059, ...parseTitleAndDifficulty("Reverse Level Order Traversal (easy)"), url: "https://leetcode.com/problems/binary-tree-level-order-traversal-ii/" },
+        { id: 1060, ...parseTitleAndDifficulty("Zigzag Traversal (medium)"), url: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/" },
+        { id: 1061, ...parseTitleAndDifficulty("Level Averages in a Binary Tree (easy)"), url: "https://leetcode.com/problems/average-of-levels-in-binary-tree/" },
+        { id: 1062, ...parseTitleAndDifficulty("Minimum Depth of a Binary Tree (easy)"), url: "https://leetcode.com/problems/minimum-depth-of-binary-tree/" },
+        { id: 1063, ...parseTitleAndDifficulty("Maximum Depth of a Binary Tree (easy)"), url: "https://leetcode.com/problems/maximum-depth-of-binary-tree/" },
+        { id: 1064, ...parseTitleAndDifficulty("Level Order Successor (easy)"), url: "https://www.geeksforgeeks.org/level-order-successor-of-a-node-in-binary-tree/" },
+        { id: 1065, ...parseTitleAndDifficulty("Connect Level Order Siblings (medium)"), url: "https://leetcode.com/problems/populating-next-right-pointers-in-each-node/" },
+        { id: 1066, ...parseTitleAndDifficulty("Right View of a Binary Tree (easy)"), url: "https://leetcode.com/problems/binary-tree-right-side-view/" },
+    ]
+  },
+  {
+    title: "11. Pattern: Tree Depth First Search",
+    problems: [
+        { id: 1067, ...parseTitleAndDifficulty("Binary Tree Path Sum (easy)"), url: "https://leetcode.com/problems/path-sum/" },
+        { id: 1068, ...parseTitleAndDifficulty("All Paths for a Sum (medium)"), url: "https://leetcode.com/problems/path-sum-ii/" },
+        { id: 1069, ...parseTitleAndDifficulty("Sum of Path Numbers (medium)"), url: "https://leetcode.com/problems/sum-root-to-leaf-numbers/" },
+        { id: 1070, ...parseTitleAndDifficulty("Path With Given Sequence (medium)"), url: "https://www.geeksforgeeks.org/check-root-leaf-path-given-sequence/" },
+        { id: 1071, ...parseTitleAndDifficulty("Count Paths for a Sum (medium)"), url: "https://leetcode.com/problems/path-sum-iii/" },
+        { id: 1072, ...parseTitleAndDifficulty("Tree Diameter (medium)"), url: "https://leetcode.com/problems/diameter-of-binary-tree/" },
+        { id: 1073, ...parseTitleAndDifficulty("Path with Maximum Sum (hard)"), url: "https://leetcode.com/problems/binary-tree-maximum-path-sum/" },
+    ]
+  },
+  {
+    title: "13. Pattern: Island (Matrix traversal)",
+    problems: [
+        { id: 1074, ...parseTitleAndDifficulty("Number of Islands (easy)"), url: "https://leetcode.com/problems/number-of-islands/" },
+        { id: 1075, ...parseTitleAndDifficulty("Max Area of Island (easy)"), url: "https://leetcode.com/problems/max-area-of-island/" },
+        { id: 1076, ...parseTitleAndDifficulty("Flood Fill (easy)"), url: "https://leetcode.com/problems/flood-fill/" },
+        { id: 1077, ...parseTitleAndDifficulty("Number of Closed Islands (easy)"), url: "https://leetcode.com/problems/number-of-closed-islands/" },
+    ]
+  },
+  {
+    title: "14. Pattern: Two Heaps",
+    problems: [
+        { id: 1078, ...parseTitleAndDifficulty("Find the Median of a Number Stream (medium)"), url: "https://leetcode.com/problems/find-median-from-data-stream/" },
+        { id: 1079, ...parseTitleAndDifficulty("Sliding Window Median (hard)"), url: "https://leetcode.com/problems/sliding-window-median/" },
+        { id: 1080, ...parseTitleAndDifficulty("Maximize Capital (hard)"), url: "https://leetcode.com/problems/ipo/" },
+        { id: 1081, ...parseTitleAndDifficulty("Maximum Sum Combinations (medium)"), url: "https://www.interviewbit.com/problems/maximum-sum-combinations/" },
+    ]
+  },
+  {
+    title: "15. Pattern: Subsets",
+    problems: [
+        { id: 1082, ...parseTitleAndDifficulty("Subsets (easy)"), url: "https://leetcode.com/problems/subsets/" },
+        { id: 1083, ...parseTitleAndDifficulty("Subsets With Duplicates (easy)"), url: "https://leetcode.com/problems/subsets-ii/" },
+        { id: 1084, ...parseTitleAndDifficulty("Permutations (medium)"), url: "https://leetcode.com/problems/permutations/" },
+        { id: 1085, ...parseTitleAndDifficulty("String Permutations by changing case (medium)"), url: "https://leetcode.com/problems/letter-case-permutation/" },
+        { id: 1086, ...parseTitleAndDifficulty("Balanced Parentheses (hard)"), url: "https://leetcode.com/problems/generate-parentheses/" },
+        { id: 1087, ...parseTitleAndDifficulty("Unique Generalized Abbreviations (hard)"), url: "https://leetcode.com/problems/generalized-abbreviation/" },
+    ]
+  },
+  {
+    title: "16. Pattern : Modified Binary Search",
+    problems: [
+        { id: 1088, ...parseTitleAndDifficulty("Order-agnostic Binary Search (easy)"), url: "https://www.geeksforgeeks.org/order-agnostic-binary-search/" },
+        { id: 1089, ...parseTitleAndDifficulty("Ceiling of a Number (medium)"), url: "https://www.geeksforgeeks.org/ceiling-in-a-sorted-array/" },
+        { id: 1090, ...parseTitleAndDifficulty("Next Letter (medium)"), url: "https://leetcode.com/problems/find-smallest-letter-greater-than-target/" },
+        { id: 1091, ...parseTitleAndDifficulty("Number Range (medium)"), url: "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" },
+        { id: 1092, ...parseTitleAndDifficulty("Search in a Sorted Infinite Array (medium)"), url: "https://www.geeksforgeeks.org/find-position-element-sorted-array-infinite-numbers/" },
+        { id: 1093, ...parseTitleAndDifficulty("Search Bitonic Array (medium)"), url: "https://leetcode.com/problems/find-in-mountain-array/" },
+        { id: 1094, ...parseTitleAndDifficulty("Search in Rotated Array (medium)"), url: "https://leetcode.com/problems/search-in-rotated-sorted-array/" },
+        { id: 1095, ...parseTitleAndDifficulty("Rotation Count (medium)"), url: "https://www.geeksforgeeks.org/find-rotation-count-rotated-sorted-array/" },
+    ]
+  },
+  {
+    title: "18. Pattern: Top 'K' Elements",
+    problems: [
+        { id: 1096, ...parseTitleAndDifficulty("Kth Smallest Number (easy)"), url: "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/" },
+        { id: 1097, ...parseTitleAndDifficulty("K' Closest Points to the Origin (easy)"), url: "https://leetcode.com/problems/k-closest-points-to-origin/" },
+        { id: 1098, ...parseTitleAndDifficulty("Connect Ropes (easy)"), url: "https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1" },
+        { id: 1099, ...parseTitleAndDifficulty("Top 'K' Frequent Numbers (medium)"), url: "https://leetcode.com/problems/top-k-frequent-elements/" },
+        { id: 1100, ...parseTitleAndDifficulty("Frequency Sort (medium)"), url: "https://leetcode.com/problems/sort-characters-by-frequency/" },
+        { id: 1101, ...parseTitleAndDifficulty("Kth Largest Number in a Stream (medium)"), url: "https://leetcode.com/problems/kth-largest-element-in-a-stream/" },
+        { id: 1102, ...parseTitleAndDifficulty("K' Closest Numbers (medium)"), url: "https://leetcode.com/problems/find-k-closest-elements/" },
+        { id: 1103, ...parseTitleAndDifficulty("Maximum Distinct Elements (medium)"), url: "https://www.geeksforgeeks.org/maximum-distinct-elements-after-removing-k-elements/" },
+        { id: 1104, ...parseTitleAndDifficulty("Sum of Elements (medium)"), url: "https://www.geeksforgeeks.org/sum-of-all-elements-between-k1th-and-k2th-smallest-elements/" },
+        { id: 1105, ...parseTitleAndDifficulty("Rearrange String (hard)"), url: "https://leetcode.com/problems/reorganize-string/" },
+    ]
+  },
+  {
+    title: "19. Pattern: K-way merge",
+    problems: [
+        { id: 1106, ...parseTitleAndDifficulty("Merge K Sorted Lists (medium)"), url: "https://leetcode.com/problems/merge-k-sorted-lists/" },
+        { id: 1107, ...parseTitleAndDifficulty("Kth Smallest Number in M Sorted Lists (Medium)"), url: "https://www.geeksforgeeks.org/find-m-th-smallest-value-in-k-sorted-arrays/" },
+        { id: 1108, ...parseTitleAndDifficulty("Kth Smallest Number in a Sorted Matrix (Hard)"), url: "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/" },
+        { id: 1109, ...parseTitleAndDifficulty("Smallest Number Range (Hard)"), url: "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/" },
+        { id: 1110, ...parseTitleAndDifficulty("K Pairs with Largest Sums (hard)"), url: "https://leetcode.com/problems/find-k-pairs-with-smallest-sums/" },
+    ]
+  },
+  {
+    title: "21. Pattern : 0/1 Knapsack (Dynamic Programming)",
+    problems: [
+        { id: 1111, ...parseTitleAndDifficulty("0/1 Knapsack (medium)"), url: "https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/" },
+        { id: 1112, ...parseTitleAndDifficulty("Equal Subset Sum Partition (medium)"), url: "https://leetcode.com/problems/partition-equal-subset-sum/" },
+        { id: 1113, ...parseTitleAndDifficulty("Subset Sum (medium)"), url: "https://www.geeksforgeeks.org/subset-sum-problem-dp-25/" },
+        { id: 1114, ...parseTitleAndDifficulty("Minimum Subset Sum Difference (hard)"), url: "https://www.geeksforgeeks.org/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum/" },
+        { id: 1115, ...parseTitleAndDifficulty("Count of Subset Sum (hard)"), url: "https://www.geeksforgeeks.org/count-of-subsets-with-sum-equal-to-x/" },
+        { id: 1116, ...parseTitleAndDifficulty("Target Sum (hard)"), url: "https://leetcode.com/problems/target-sum/" },
+    ]
+  },
+  {
+    title: "22. Pattern: Backtracking",
+    problems: [
+        { id: 1117, ...parseTitleAndDifficulty("Combination Sum (medium)"), url: "https://leetcode.com/problems/combination-sum/"},
+        { id: 1118, ...parseTitleAndDifficulty("Word Search (medium)"), url: "https://leetcode.com/problems/word-search/" },
+        { id: 1119, ...parseTitleAndDifficulty("Sudoku Solver (hard)"), url: "https://leetcode.com/problems/sudoku-solver/" },
+        { id: 1120, ...parseTitleAndDifficulty("Factor Combinations (medium)"), url: "https://leetcode.com/problems/factor-combinations/" },
+        { id: 1121, ...parseTitleAndDifficulty("Split a String Into the Max Number of Unique Substrings (medium)"), url: "https://leetcode.com/problems/split-a-string-into-the-max-number-of-unique-substrings/" },
+    ]
+  },
+  {
+    title: "23. Pattern: Trie",
+    problems: [
+        { id: 1122, ...parseTitleAndDifficulty("Implement Trie (Prefix Tree) (medium)"), url: "https://leetcode.com/problems/implement-trie-prefix-tree/" },
+        { id: 1123, ...parseTitleAndDifficulty("Index Pairs of a String (easy)"), url: "https://leetcode.com/problems/index-pairs-of-a-string/" },
+        { id: 1124, ...parseTitleAndDifficulty("Design Add and Search Words Data Structure (medium)"), url: "https://leetcode.com/problems/design-add-and-search-words-data-structure/" },
+        { id: 1125, ...parseTitleAndDifficulty("Extra Characters in a String (medium)"), url: "https://leetcode.com/problems/extra-characters-in-a-string/" },
+        { id: 1126, ...parseTitleAndDifficulty("Search Suggestions System (medium)"), url: "https://leetcode.com/problems/search-suggestions-system/" },
+    ]
+  },
+  {
+    title: "24. Pattern: Topological Sort (Graph)",
+    problems: [
+        { id: 1127, ...parseTitleAndDifficulty("Tasks Scheduling (medium)"), url: "https://leetcode.com/problems/course-schedule/" },
+        { id: 1128, ...parseTitleAndDifficulty("Tasks Scheduling Order (medium)"), url: "https://leetcode.com/problems/course-schedule-ii/" },
+        { id: 1129, ...parseTitleAndDifficulty("All Tasks Scheduling Orders (hard)"), url: "https://www.geeksforgeeks.org/all-topological-sorts-of-a-directed-acyclic-graph/" },
+        { id: 1130, ...parseTitleAndDifficulty("Alien Dictionary (hard)"), url: "https://leetcode.com/problems/alien-dictionary/" },
+        { id: 1131, ...parseTitleAndDifficulty("Reconstructing a Sequence (hard)"), url: "https://leetcode.com/problems/sequence-reconstruction/" },
+        { id: 1132, ...parseTitleAndDifficulty("Minimum Height Trees (hard)"), url: "https://leetcode.com/problems/minimum-height-trees/" },
+    ]
+  }
 ];

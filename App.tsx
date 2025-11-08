@@ -9,7 +9,7 @@ import Dashboard from './components/Dashboard';
 import NoteModal from './components/NoteModal';
 import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
 import { dark } from '@clerk/themes';
-import { sdeSheet, striverSdeSheet } from './data/problems';
+import { problemSheet } from './data/problems';
 import type { Topic, Problem } from './types';
 import { getUserData, updateProblemStatus, updateNote, resetUserData } from './services/userData';
 
@@ -64,18 +64,12 @@ export const useTheme = () => {
 };
 // --- THEME PROVIDER END ---
 
-type SheetKey = 'sde' | 'striver';
-
-const sheets = {
-    sde: { key: 'sdeSheet', data: sdeSheet },
-    striver: { key: 'striverSdeSheet', data: striverSdeSheet }
-};
+const SHEET_STORAGE_KEY = 'dsaPatternsSheet';
 
 const TrackerApp: React.FC = () => {
     const { isLoaded, user } = useUser();
     const [dataLoading, setDataLoading] = useState(true);
     const [view, setView] = useState<'tracker' | 'profile'>('tracker');
-    const [activeSheetKey, setActiveSheetKey] = useState<SheetKey>('sde');
     
     const [solvedProblems, setSolvedProblems] = useState<Set<number>>(new Set());
     const [notes, setNotes] = useState<Map<number, string>>(new Map());
@@ -83,17 +77,15 @@ const TrackerApp: React.FC = () => {
     const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
     const [openTopic, setOpenTopic] = useState<string | null>(null);
 
-    const activeSheet = sheets[activeSheetKey];
-    
     useEffect(() => {
         if (isLoaded && user) {
             setDataLoading(true);
-            const userData = getUserData(user, activeSheet.key);
+            const userData = getUserData(user, SHEET_STORAGE_KEY);
             setSolvedProblems(new Set(userData.solvedProblems));
             setNotes(new Map(Object.entries(userData.notes).map(([key, value]) => [Number(key), value as string])));
             setDataLoading(false);
         }
-    }, [isLoaded, user, activeSheetKey]);
+    }, [isLoaded, user]);
     
     useEffect(() => {
         if (openTopic) {
@@ -111,8 +103,8 @@ const TrackerApp: React.FC = () => {
         if (isSolved) newSet.delete(id);
         else newSet.add(id);
         setSolvedProblems(newSet);
-        await updateProblemStatus(user, id, !isSolved, activeSheet.key);
-    }, [solvedProblems, user, activeSheet.key]);
+        await updateProblemStatus(user, id, !isSolved, SHEET_STORAGE_KEY);
+    }, [solvedProblems, user]);
 
     const handleNoteChange = useCallback(async (id: number, text: string) => {
         if (!user) return;
@@ -120,41 +112,41 @@ const TrackerApp: React.FC = () => {
         if (text.trim()) newMap.set(id, text);
         else newMap.delete(id);
         setNotes(newMap);
-        await updateNote(user, id, text, activeSheet.key);
-    }, [notes, user, activeSheet.key]);
+        await updateNote(user, id, text, SHEET_STORAGE_KEY);
+    }, [notes, user]);
 
     const handleResetProgress = useCallback(async () => {
         if (!user) return;
         setSolvedProblems(new Set());
         setNotes(new Map());
-        await resetUserData(user, activeSheet.key);
-    }, [user, activeSheet.key]);
+        await resetUserData(user, SHEET_STORAGE_KEY);
+    }, [user]);
     
     const handleSelectProblemFromDashboard = (problemId: number) => {
-        const topicForProblem = activeSheet.data.find(t => t.problems.some(p => p.id === problemId));
+        const topicForProblem = problemSheet.find(t => t.problems.some(p => p.id === problemId));
         if (topicForProblem) {
             setOpenTopic(topicForProblem.title);
         }
     };
 
-    const totalProblems = useMemo(() => activeSheet.data.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), [activeSheet.data]);
+    const totalProblems = useMemo(() => problemSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
 
     const filteredTopics = useMemo(() => {
-        if (!searchQuery.trim()) return activeSheet.data;
+        if (!searchQuery.trim()) return problemSheet;
         const lowercasedQuery = searchQuery.toLowerCase();
-        return activeSheet.data
+        return problemSheet
             .map(topic => ({
                 ...topic,
                 problems: topic.problems.filter(problem => problem.title.toLowerCase().includes(lowercasedQuery)),
             }))
             .filter(topic => topic.problems.length > 0);
-    }, [searchQuery, activeSheet.data]);
+    }, [searchQuery]);
 
     const firstUnsolvedTopicIndex = useMemo(() => {
         if (searchQuery) return -1;
-        const index = activeSheet.data.findIndex(topic => topic.problems.some(p => !solvedProblems.has(p.id)));
+        const index = problemSheet.findIndex(topic => topic.problems.some(p => !solvedProblems.has(p.id)));
         return index;
-    }, [solvedProblems, searchQuery, activeSheet.data]);
+    }, [solvedProblems, searchQuery]);
 
     const allProblemsSolved = solvedProblems.size === totalProblems && totalProblems > 0;
 
@@ -170,7 +162,7 @@ const TrackerApp: React.FC = () => {
         return (
             <ProfilePage
                 user={user}
-                sheet={activeSheet.data}
+                sheet={problemSheet}
                 solvedProblems={solvedProblems}
                 onNavigateBack={() => setView('tracker')}
             />
@@ -185,12 +177,10 @@ const TrackerApp: React.FC = () => {
                     totalProblems={totalProblems} 
                     onReset={handleResetProgress}
                     onNavigateToProfile={() => setView('profile')}
-                    activeSheetKey={activeSheetKey}
-                    onSheetChange={setActiveSheetKey}
                 />
                 
                 <Dashboard 
-                    topics={activeSheet.data} 
+                    topics={problemSheet} 
                     solvedProblems={solvedProblems} 
                     onSelectProblem={handleSelectProblemFromDashboard}
                 />
@@ -210,7 +200,7 @@ const TrackerApp: React.FC = () => {
 
                     {filteredTopics.length > 0 ? (
                         filteredTopics.map((topic: Topic, index) => {
-                            const originalIndex = activeSheet.data.findIndex(t => t.title === topic.title);
+                            const originalIndex = problemSheet.findIndex(t => t.title === topic.title);
                             const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
                             return (
                                 <TopicCard 

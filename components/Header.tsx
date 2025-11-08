@@ -9,8 +9,6 @@ interface HeaderProps {
     totalProblems: number;
     onReset: () => void;
     onNavigateToProfile: () => void;
-    activeSheetKey: 'sde' | 'striver';
-    onSheetChange: (sheet: 'sde' | 'striver') => void;
 }
 
 const TargetIcon: React.FC = () => (
@@ -72,7 +70,7 @@ const ThemeToggle: React.FC = () => {
 };
 
 
-const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, onNavigateToProfile, activeSheetKey, onSheetChange }) => {
+const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, onNavigateToProfile }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const progress = totalProblems > 0 ? (totalSolved / totalProblems) * 100 : 0;
     
@@ -80,13 +78,6 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
         onReset();
         setIsModalOpen(false);
     }
-    
-    const sheetButtonClasses = (isActive: boolean) =>
-        `px-4 py-1.5 text-sm font-semibold rounded-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-            isActive
-                ? 'bg-accent text-white dark:text-black shadow'
-                : 'text-text-secondary hover:bg-card-secondary'
-        }`;
 
     return (
         <>
@@ -95,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
                     <div className="flex items-center gap-4">
                         <TargetIcon />
                         <div className="text-center md:text-left">
-                            <h1 className="text-3xl font-bold text-text-main tracking-tight">Target DSA 2025</h1>
+                            <h1 className="text-3xl font-bold text-text-main tracking-tight">DSA Patterns Tracker</h1>
                             <p className="text-text-secondary mt-1">Your journey to mastering Data Structures & Algorithms.</p>
                         </div>
                     </div>
@@ -125,17 +116,6 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
                     </div>
                 </div>
                 
-                 <div className="mt-6 flex justify-center border-t border-border pt-4">
-                    <div role="tablist" aria-label="Problem Sheets" className="bg-card-secondary/60 p-1 rounded-lg flex space-x-1">
-                        <button role="tab" aria-selected={activeSheetKey === 'sde'} onClick={() => onSheetChange('sde')} className={sheetButtonClasses(activeSheetKey === 'sde')}>
-                            SDE Sheet
-                        </button>
-                        <button role="tab" aria-selected={activeSheetKey === 'striver'} onClick={() => onSheetChange('striver')} className={sheetButtonClasses(activeSheetKey === 'striver')}>
-                            Striver's SDE Sheet
-                        </button>
-                    </div>
-                </div>
-
                 <div className="mt-6">
                     <div className="w-full bg-card-secondary/80 rounded-full h-3">
                         <div 
@@ -150,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ totalSolved, totalProblems, onReset, on
             </header>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Reset Progress">
                 <p className="text-text-secondary my-4">
-                    Are you sure you want to reset all your progress for the current sheet? This will clear all solved problems and notes for your account. This action cannot be undone.
+                    Are you sure you want to reset all your progress? This will clear all solved problems and notes for your account. This action cannot be undone.
                 </p>
                 <div className="flex justify-end space-x-3 mt-6">
                     <button
