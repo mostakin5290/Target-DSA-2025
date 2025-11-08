@@ -9,6 +9,7 @@ import LeftSidebar from './components/LeftSidebar';
 import RightSidebar from './components/RightSidebar';
 import NoteModal from './components/NoteModal';
 import StudyPlanView from './components/StudyPlanView';
+import Footer from './components/Footer';
 import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
 import { dark } from '@clerk/themes';
 import { problemSheet } from './data/problems';
@@ -208,12 +209,12 @@ const TrackerApp: React.FC = () => {
     }
 
     return (
-        <div className="bg-background text-text-main min-h-screen font-sans">
+        <div className="bg-background text-text-main min-h-screen font-sans flex flex-col">
             <Header 
                 progressPercent={progressPercent}
                 onNavigateToProfile={() => setView('profile')}
             />
-            <div className="container mx-auto max-w-screen-2xl p-4 md:p-6">
+            <div className="container mx-auto max-w-screen-2xl p-4 md:p-6 flex-grow">
                  <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_320px] gap-6">
                     <LeftSidebar activeView={activeView} setActiveView={setActiveView} />
 
@@ -291,6 +292,9 @@ const TrackerApp: React.FC = () => {
                 onSave={handleNoteChange}
                 onSelectProblem={handleSelectProblemFromModal}
             />
+            <div className="container mx-auto max-w-screen-2xl px-4 md:px-6">
+                <Footer />
+            </div>
         </div>
     );
 };

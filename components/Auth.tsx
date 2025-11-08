@@ -1,5 +1,6 @@
 import React from 'react';
 import { SignInButton } from "@clerk/clerk-react";
+import Footer from './Footer';
 
 const GoogleIcon = () => (
     <svg className="w-6 h-6 mr-3" viewBox="0 0 48 48">
@@ -12,23 +13,26 @@ const GoogleIcon = () => (
 
 const Auth: React.FC = () => {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-transparent text-text-main p-4">
-            <div className="text-center animate-fade-in-up max-w-2xl">
-                <h1 className="text-4xl md:text-5xl font-bold text-text-main tracking-tight">Welcome to Target DSA 2025</h1>
-                <p className="text-text-secondary mt-4 mx-auto">
-                    Sign in to track your progress across devices and keep your data safe in the cloud.
-                </p>
-            </div>
-            <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                 <SignInButton mode="modal">
-                    <button
-                        className="flex items-center justify-center bg-card/80 hover:bg-card-secondary/80 dark:backdrop-blur-lg transition-colors duration-200 text-text-main font-medium py-3 px-6 rounded-xl border border-border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                    >
-                        <GoogleIcon />
-                        <span>Sign in with Google</span>
-                    </button>
-                 </SignInButton>
-            </div>
+        <div className="min-h-screen flex flex-col bg-transparent text-text-main p-4">
+            <main className="flex-grow flex flex-col items-center justify-center">
+                <div className="text-center animate-fade-in-up max-w-2xl">
+                    <h1 className="text-4xl md:text-5xl font-bold text-text-main tracking-tight">Welcome to Target DSA 2025</h1>
+                    <p className="text-text-secondary mt-4 mx-auto">
+                        Sign in to track your progress across devices and keep your data safe in the cloud.
+                    </p>
+                </div>
+                <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                     <SignInButton mode="modal">
+                        <button
+                            className="flex items-center justify-center bg-card/80 hover:bg-card-secondary/80 dark:backdrop-blur-lg transition-colors duration-200 text-text-main font-medium py-3 px-6 rounded-xl border border-border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        >
+                            <GoogleIcon />
+                            <span>Sign in with Google</span>
+                        </button>
+                     </SignInButton>
+                </div>
+            </main>
+            <Footer />
         </div>
     );
 };
