@@ -11,33 +11,19 @@ const SearchIcon: React.FC = () => (
     </svg>
 );
 
-const FilterPill: React.FC<{ children: React.ReactNode; active?: boolean }> = ({ children, active }) => (
-    <button className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${active ? 'bg-card-secondary text-text-main' : 'text-text-secondary hover:bg-card-secondary/70 hover:text-text-main'}`}>
-        {children}
-    </button>
-);
-
 const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery }) => {
     return (
-        <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-                <FilterPill active>All Topics</FilterPill>
-                <FilterPill>Algorithms</FilterPill>
-                <FilterPill>Database</FilterPill>
-                <FilterPill>JavaScript</FilterPill>
+        <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <SearchIcon />
             </div>
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <SearchIcon />
-                </div>
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search questions..."
-                    className="w-full bg-card-secondary border border-transparent text-text-main rounded-lg pl-11 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/80 focus:border-accent/80 transition-colors"
-                />
-            </div>
+            <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search questions..."
+                className="w-full bg-card-secondary border border-transparent text-text-main rounded-lg pl-11 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/80 focus:border-accent/80 transition-colors"
+            />
         </div>
     );
 };

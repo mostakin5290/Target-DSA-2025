@@ -8,6 +8,7 @@ import ProfilePage from './components/ProfilePage';
 import LeftSidebar from './components/LeftSidebar';
 import RightSidebar from './components/RightSidebar';
 import NoteModal from './components/NoteModal';
+import StudyPlanView from './components/StudyPlanView';
 import { SignedIn, SignedOut, useUser, ClerkProvider } from '@clerk/clerk-react';
 import { dark } from '@clerk/themes';
 import { problemSheet } from './data/problems';
@@ -65,6 +66,7 @@ export const useTheme = () => {
 };
 // --- THEME PROVIDER END ---
 
+type ActiveView = 'library' | 'favorites' | 'study-plan';
 const SHEET_STORAGE_KEY = 'dsaPatternsSheet';
 
 const TrackerApp: React.FC = () => {
@@ -78,7 +80,7 @@ const TrackerApp: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
     const [openTopic, setOpenTopic] = useState<string | null>(null);
-    const [activeView, setActiveView] = useState<'library' | 'favorites'>('library');
+    const [activeView, setActiveView] = useState<ActiveView>('library');
 
     useEffect(() => {
         if (isLoaded && user) {
@@ -150,7 +152,9 @@ const TrackerApp: React.FC = () => {
         setTimeout(() => handleSelectProblem(problemId), 100);
     };
 
-    const totalProblems = useMemo(() => problemSheet.reduce((acc, topic: Topic) => acc + topic.problems.length, 0), []);
+    const allProblemsList = useMemo(() => problemSheet.flatMap(t => t.problems), []);
+    const totalProblems = allProblemsList.length;
+    const progressPercent = totalProblems > 0 ? (solvedProblems.size / totalProblems) * 100 : 0;
 
     const filteredTopics = useMemo(() => {
         let baseTopics = problemSheet;
@@ -176,7 +180,7 @@ const TrackerApp: React.FC = () => {
     }, [searchQuery, activeView, favoriteProblems]);
 
     const firstUnsolvedTopicIndex = useMemo(() => {
-        if (searchQuery || activeView === 'favorites') return -1;
+        if (searchQuery || activeView === 'favorites' || activeView === 'study-plan') return -1;
         const index = problemSheet.findIndex(topic => topic.problems.some(p => !solvedProblems.has(p.id)));
         return index;
     }, [solvedProblems, searchQuery, activeView]);
@@ -198,6 +202,7 @@ const TrackerApp: React.FC = () => {
                 sheet={problemSheet}
                 solvedProblems={solvedProblems}
                 onNavigateBack={() => setView('tracker')}
+                onReset={handleResetProgress}
             />
         )
     }
@@ -205,54 +210,68 @@ const TrackerApp: React.FC = () => {
     return (
         <div className="bg-background text-text-main min-h-screen font-sans">
             <Header 
-                onReset={handleResetProgress}
+                progressPercent={progressPercent}
                 onNavigateToProfile={() => setView('profile')}
             />
             <div className="container mx-auto max-w-screen-2xl p-4 md:p-6">
                  <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_320px] gap-6">
                     <LeftSidebar activeView={activeView} setActiveView={setActiveView} />
 
-                    {/* Main Content */}
                     <main>
-                         <SearchFilter 
-                            searchQuery={searchQuery}
-                            setSearchQuery={setSearchQuery}
-                        />
-                        <div className="mt-4 space-y-2">
-                           {allProblemsSolved && (
-                                <div className="bg-card border border-border rounded-lg p-8 text-center animate-fade-in-up">
-                                    <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
-                                    <p className="mt-2 text-text-main">You have solved all the problems. Great job!</p>
-                                </div>
-                            )}
+                        {['library', 'favorites'].includes(activeView) && (
+                            <SearchFilter 
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                            />
+                        )}
+                        <div className="mt-4">
+                           {activeView === 'study-plan' ? (
+                                <StudyPlanView
+                                    allProblems={allProblemsList}
+                                    solvedProblems={solvedProblems}
+                                    onSelectProblem={(problemId) => {
+                                        setActiveView('library');
+                                        setTimeout(() => handleSelectProblem(problemId), 100);
+                                    }}
+                                />
+                           ) : (
+                                <div className="space-y-2">
+                                    {allProblemsSolved && (
+                                        <div className="bg-card border border-border rounded-lg p-8 text-center animate-fade-in-up">
+                                            <h2 className="text-2xl font-bold text-accent">Congratulations!</h2>
+                                            <p className="mt-2 text-text-main">You have solved all the problems. Great job!</p>
+                                        </div>
+                                    )}
 
-                            {filteredTopics.length > 0 ? (
-                                filteredTopics.map((topic: Topic, index) => {
-                                    const originalIndex = problemSheet.findIndex(t => t.title === topic.title);
-                                    const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
-                                    return (
-                                        <TopicCard 
-                                            key={topic.title}
-                                            topic={topic}
-                                            solvedProblems={solvedProblems}
-                                            favoriteProblems={favoriteProblems}
-                                            onToggleProblem={handleToggleProblem}
-                                            onToggleFavorite={handleToggleFavorite}
-                                            onEditNote={setEditingProblem}
-                                            initiallyOpen={isInitiallyOpen}
-                                            animationDelay={`${index * 50}ms`}
-                                        />
-                                    );
-                                })
-                            ) : (
-                                !allProblemsSolved && (
-                                    <div className="text-center py-10 animate-fade-in-up">
-                                        <p className="text-text-secondary">
-                                            {activeView === 'favorites' ? 'You have no favorite problems yet.' : `No problems found for "${searchQuery}"`}
-                                        </p>
-                                    </div>
-                                )
-                            )}
+                                    {filteredTopics.length > 0 ? (
+                                        filteredTopics.map((topic: Topic, index) => {
+                                            const originalIndex = problemSheet.findIndex(t => t.title === topic.title);
+                                            const isInitiallyOpen = !searchQuery && (topic.title === openTopic || originalIndex === firstUnsolvedTopicIndex);
+                                            return (
+                                                <TopicCard 
+                                                    key={topic.title}
+                                                    topic={topic}
+                                                    solvedProblems={solvedProblems}
+                                                    favoriteProblems={favoriteProblems}
+                                                    onToggleProblem={handleToggleProblem}
+                                                    onToggleFavorite={handleToggleFavorite}
+                                                    onEditNote={setEditingProblem}
+                                                    initiallyOpen={isInitiallyOpen}
+                                                    animationDelay={`${index * 50}ms`}
+                                                />
+                                            );
+                                        })
+                                    ) : (
+                                        !allProblemsSolved && (
+                                            <div className="text-center py-10 animate-fade-in-up">
+                                                <p className="text-text-secondary">
+                                                    {activeView === 'favorites' ? 'You have no favorite problems yet.' : `No problems found for "${searchQuery}"`}
+                                                </p>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                           )}
                         </div>
                     </main>
 

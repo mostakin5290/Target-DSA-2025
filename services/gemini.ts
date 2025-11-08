@@ -3,7 +3,7 @@ import type { Problem } from '../types';
 
 const getAIHint = async (problemTitle: string, userNotes: string): Promise<string> => {
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey:"AIzaSyA0xeekABROM7nmbuAfvNBBWeeQpe4RU3M" });
 
         const prompt = `
             You are an expert programming tutor specializing in Data Structures and Algorithms.
@@ -47,7 +47,7 @@ const getAIProblemSuggestion = async (allProblems: Problem[], solvedProblemIds: 
         .map(p => ({ id: p.id, title: p.title, difficulty: p.difficulty }));
 
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey:"AIzaSyA0xeekABROM7nmbuAfvNBBWeeQpe4RU3M" });
 
         const prompt = `
             You are an expert DSA tutor. A user needs a recommendation for the next problem to solve.
@@ -105,7 +105,7 @@ const getAIProblemSuggestion = async (allProblems: Problem[], solvedProblemIds: 
 
 const getRelatedProblems = async (currentProblem: Problem, allProblems: Problem[]): Promise<number[]> => {
      try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey:"AIzaSyA0xeekABROM7nmbuAfvNBBWeeQpe4RU3M" });
         const otherProblems = allProblems.filter(p => p.id !== currentProblem.id).map(p => ({id: p.id, title: p.title}));
 
         const prompt = `
@@ -143,6 +143,69 @@ const getRelatedProblems = async (currentProblem: Problem, allProblems: Problem[
         console.error("Error fetching related problems:", error);
         throw error;
     }
+}
+
+export const getAIStudyPlan = async (allProblems: Problem[], solvedProblemIds: Set<number>): Promise<{ plan: { topic: string; reasoning: string; problems: Problem[] }[] }> => {
+    const unsolvedProblems = allProblems.filter(p => !solvedProblemIds.has(p.id));
+    const solvedProblems = allProblems.filter(p => solvedProblemIds.has(p.id));
+
+    if (unsolvedProblems.length === 0) {
+        return { plan: [{ topic: "Congratulations!", reasoning: "You've solved every problem on the list. Great job!", problems: [] }] };
+    }
+
+    const ai = new GoogleGenAI({ apiKey:"AIzaSyA0xeekABROM7nmbuAfvNBBWeeQpe4RU3M" });
+
+    const prompt = `
+        You are an expert DSA tutor creating a personalized study plan.
+        The user has solved these problems: ${JSON.stringify(solvedProblems.map(p => p.title).slice(0, 30))}
+        They have these unsolved problems remaining: ${JSON.stringify(unsolvedProblems.map(p => ({id: p.id, title: p.title})).slice(0, 100))}
+        
+        Create a study plan with 3-4 topics. For each topic:
+        1. Provide a brief, encouraging "reasoning" for why the user should study this topic next, based on their progress.
+        2. Suggest 2-3 specific "problemIds" from the unsolved list for that topic.
+        
+        Structure your response to build on what they know. Start with a foundational topic they haven't mastered, then move to more advanced ones.
+    `;
+    
+    const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: Type.OBJECT,
+                properties: {
+                    plan: {
+                        type: Type.ARRAY,
+                        description: "An array of topics for the study plan.",
+                        items: {
+                            type: Type.OBJECT,
+                            properties: {
+                                topic: { type: Type.STRING, description: "Name of the topic, e.g., 'Two Pointers' or 'Dynamic Programming'." },
+                                reasoning: { type: Type.STRING, description: "A short reason for suggesting this topic." },
+                                problemIds: {
+                                    type: Type.ARRAY,
+                                    description: "An array of problem IDs for this topic from the unsolved list.",
+                                    items: { type: Type.NUMBER }
+                                }
+                            },
+                            required: ["topic", "reasoning", "problemIds"]
+                        }
+                    }
+                },
+                required: ["plan"]
+            }
+        }
+    });
+
+    const parsed = JSON.parse(response.text);
+    // Hydrate problem objects from IDs
+    const hydratedPlan = parsed.plan.map((stage: any) => ({
+        ...stage,
+        problems: stage.problemIds.map((id: number) => allProblems.find(p => p.id === id)).filter(Boolean) as Problem[]
+    }));
+
+    return { plan: hydratedPlan };
 }
 
 

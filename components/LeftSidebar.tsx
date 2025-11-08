@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ActiveView = 'library' | 'favorites';
+type ActiveView = 'library' | 'favorites' | 'study-plan';
 
 interface LeftSidebarProps {
     activeView: ActiveView;
@@ -48,7 +48,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ activeView, setActiveView }) 
             <div className="sticky top-20 space-y-1">
                 <NavItem icon={<LibraryIcon />} label="Library" active={activeView === 'library'} onClick={() => setActiveView('library')} />
                 <NavItem icon={<FavoriteIcon />} label="Favorites" active={activeView === 'favorites'} onClick={() => setActiveView('favorites')} />
-                <NavItem icon={<StudyPlanIcon />} label="Study Plan" disabled />
+                <NavItem icon={<StudyPlanIcon />} label="AI Study Plan" active={activeView === 'study-plan'} onClick={() => setActiveView('study-plan')} />
             </div>
         </aside>
     );
